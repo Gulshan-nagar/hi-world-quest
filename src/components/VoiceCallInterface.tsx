@@ -38,10 +38,10 @@ const VoiceCallInterface = ({ currentUserId }: VoiceCallInterfaceProps) => {
 
   if (callState.status === "idle") {
     return (
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-24 right-6 z-50">
         <Button
           onClick={startMatchmaking}
-          className="h-16 px-8 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] transition-all duration-300 text-lg font-bold animate-pulse"
+          className="h-16 px-8 bg-gradient-primary hover:shadow-glow transition-all duration-300 text-lg font-bold shadow-elegant"
         >
           <Phone className="w-6 h-6 mr-3" />
           Start Voice Call
@@ -65,8 +65,8 @@ const VoiceCallInterface = ({ currentUserId }: VoiceCallInterfaceProps) => {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
-      <Card className="bg-card/95 backdrop-blur border-border shadow-card w-80">
+    <div className="fixed bottom-24 right-6 z-50">
+      <Card className="bg-card/95 backdrop-blur border-border shadow-glow w-80">
         <CardContent className="p-6">
           <div className="flex flex-col items-center gap-4">
             {/* Status indicator */}
@@ -131,6 +131,7 @@ const VoiceCallInterface = ({ currentUserId }: VoiceCallInterfaceProps) => {
           </div>
         </CardContent>
       </Card>
+      <audio id="remote-audio" autoPlay />
     </div>
   );
 };

@@ -186,6 +186,16 @@ export const useVoiceCall = (currentUserId: string) => {
         .update({ status: "ended", ended_at: new Date().toISOString() })
         .eq("id", callState.callId);
 
+      // Notify the other user that call ended via realtime
+      await supabase
+        .from("call_signals")
+        .insert({
+          call_id: callState.callId,
+          sender_id: currentUserId,
+          signal_type: "call-ended",
+          signal_data: { reason: "user_disconnect" } as any,
+        } as any);
+
       // Close peer connection
       if (peerConnection.current) {
         peerConnection.current.close();
@@ -317,11 +327,29 @@ export const useVoiceCall = (currentUserId: string) => {
               await peerConnection.current.addIceCandidate(
                 new RTCIceCandidate(signal.signal_data)
               );
+            } else if (signal.signal_type === "call-ended") {
+              // Other user ended the call - clean up and show post-call
+              if (peerConnection.current) {
+                peerConnection.current.close();
+                peerConnection.current = null;
+              }
+              if (localStream.current) {
+                localStream.current.getTracks().forEach((track) => track.stop());
+                localStream.current = null;
+              }
+              setCallState((prev) => ({
+                ...prev,
+                status: "post-call",
+              }));
+              toast({
+                title: "Call Ended",
+                description: "The other user has disconnected",
+              });
             }
           } catch (error) {
-        if (import.meta.env.DEV) {
-          console.error("Error handling signal:", error);
-        }
+            if (import.meta.env.DEV) {
+              console.error("Error handling signal:", error);
+            }
           }
         }
       )
