@@ -58,7 +58,7 @@ const ChatPanel = ({ currentUserId }: ChatPanelProps) => {
 
   const loadMessages = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("messages")
         .select("*")
         .order("created_at", { ascending: true });
@@ -90,7 +90,7 @@ const ChatPanel = ({ currentUserId }: ChatPanelProps) => {
 
     setLoading(true);
     try {
-      const { error } = await supabase.from("messages").insert({
+      const { error } = await (supabase as any).from("messages").insert({
         content: trimmedMessage,
         sender_id: currentUserId,
       });
