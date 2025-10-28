@@ -30,7 +30,7 @@ const AdminReports = ({ onStatsUpdate }: AdminReportsProps) => {
 
   const loadReports = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("user_reports")
         .select("id, reporter_id, reported_id, reason, status, created_at")
         .order("created_at", { ascending: false });
@@ -40,8 +40,8 @@ const AdminReports = ({ onStatsUpdate }: AdminReportsProps) => {
       const reportsWithNames = await Promise.all(
         (data || []).map(async (report) => {
           const [reporter, reported] = await Promise.all([
-            supabase.from("profiles").select("full_name").eq("id", report.reporter_id).single(),
-            supabase.from("profiles").select("full_name").eq("id", report.reported_id).single(),
+            (await (supabase as any).from("profiles").select("full_name").eq("id", report.reporter_id).single()),
+            (await (supabase as any).from("profiles").select("full_name").eq("id", report.reported_id).single()),
           ]);
 
           return {
@@ -67,7 +67,7 @@ const AdminReports = ({ onStatsUpdate }: AdminReportsProps) => {
 
   const handleUpdateStatus = async (reportId: string, newStatus: string) => {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("user_reports")
         .update({ status: newStatus })
         .eq("id", reportId);

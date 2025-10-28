@@ -22,7 +22,7 @@ const AdminFeedback = () => {
 
   const loadFeedback = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("call_feedback")
         .select("id, rating, feedback_text, created_at, user_id")
         .order("created_at", { ascending: false });
@@ -31,7 +31,7 @@ const AdminFeedback = () => {
 
       const feedbackWithNames = await Promise.all(
         (data || []).map(async (fb) => {
-          const { data: profile } = await supabase
+          const { data: profile } = await (supabase as any)
             .from("profiles")
             .select("full_name")
             .eq("id", fb.user_id)

@@ -71,7 +71,7 @@ const FriendsList = ({ currentUserId }: FriendsListProps) => {
   }, [currentUserId]);
 
   const loadFriendRequests = async () => {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("friend_requests")
       .select("id, sender_id, created_at")
       .eq("receiver_id", currentUserId)
@@ -86,7 +86,7 @@ const FriendsList = ({ currentUserId }: FriendsListProps) => {
 
     const requestsWithNames = await Promise.all(
       (data || []).map(async (req) => {
-        const { data: profile } = await supabase
+        const { data: profile } = await (supabase as any)
           .from("profiles")
           .select("full_name")
           .eq("id", req.sender_id)
@@ -105,7 +105,7 @@ const FriendsList = ({ currentUserId }: FriendsListProps) => {
   };
 
   const loadFriends = async () => {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("friendships")
       .select("user_id_1, user_id_2")
       .or(`user_id_1.eq.${currentUserId},user_id_2.eq.${currentUserId}`);
@@ -123,7 +123,7 @@ const FriendsList = ({ currentUserId }: FriendsListProps) => {
 
     const friendsWithNames = await Promise.all(
       friendIds.map(async (friendId) => {
-        const { data: profile } = await supabase
+        const { data: profile } = await (supabase as any)
           .from("profiles")
           .select("full_name")
           .eq("id", friendId)
@@ -142,7 +142,7 @@ const FriendsList = ({ currentUserId }: FriendsListProps) => {
 
   const handleAcceptRequest = async (requestId: string, senderId: string) => {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("friend_requests")
         .update({ status: "accepted" })
         .eq("id", requestId);
@@ -150,7 +150,7 @@ const FriendsList = ({ currentUserId }: FriendsListProps) => {
       if (error) throw error;
 
       // Also send a request back if not already sent
-      await supabase.from("friend_requests").insert({
+      await (supabase as any).from("friend_requests").insert({
         sender_id: currentUserId,
         receiver_id: senderId,
         status: "accepted",
@@ -177,7 +177,7 @@ const FriendsList = ({ currentUserId }: FriendsListProps) => {
 
   const handleRejectRequest = async (requestId: string) => {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("friend_requests")
         .update({ status: "rejected" })
         .eq("id", requestId);

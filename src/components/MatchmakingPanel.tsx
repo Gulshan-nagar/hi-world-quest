@@ -46,7 +46,7 @@ const MatchmakingPanel = ({ currentUserId, onCallStart }: MatchmakingPanelProps)
     
     try {
       // Add user to matchmaking queue
-      const { error: queueError } = await supabase
+      const { error: queueError } = await (supabase as any)
         .from("matchmaking_queue")
         .insert({ user_id: currentUserId });
 
@@ -56,7 +56,7 @@ const MatchmakingPanel = ({ currentUserId, onCallStart }: MatchmakingPanelProps)
       }
 
       // Check for available partners
-      const { data: queue, error: fetchError } = await supabase
+      const { data: queue, error: fetchError } = await (supabase as any)
         .from("matchmaking_queue")
         .select("user_id")
         .neq("user_id", currentUserId)
@@ -69,7 +69,7 @@ const MatchmakingPanel = ({ currentUserId, onCallStart }: MatchmakingPanelProps)
         const partnerId = queue[0].user_id;
 
         // Create call
-        const { data: call, error: callError } = await supabase
+        const { data: call, error: callError } = await (supabase as any)
           .from("calls")
           .insert({
             caller_id: currentUserId,
@@ -82,7 +82,7 @@ const MatchmakingPanel = ({ currentUserId, onCallStart }: MatchmakingPanelProps)
         if (callError) throw callError;
 
         // Remove both users from queue
-        await supabase
+        await (supabase as any)
           .from("matchmaking_queue")
           .delete()
           .in("user_id", [currentUserId, partnerId]);
@@ -110,7 +110,7 @@ const MatchmakingPanel = ({ currentUserId, onCallStart }: MatchmakingPanelProps)
       setIsSearching(false);
       
       // Remove from queue on error
-      await supabase
+      await (supabase as any)
         .from("matchmaking_queue")
         .delete()
         .eq("user_id", currentUserId);

@@ -95,7 +95,7 @@ export const useVoiceCall = (currentUserId: string) => {
       setCallState((prev) => ({ ...prev, status: "searching" }));
 
       // Add to matchmaking queue
-      const { error: queueError } = await supabase
+      const { error: queueError } = await (supabase as any)
         .from("matchmaking_queue")
         .insert({ user_id: currentUserId });
 
@@ -109,7 +109,7 @@ export const useVoiceCall = (currentUserId: string) => {
       });
 
       // Check for existing users in queue
-      const { data: queueUsers, error: fetchError } = await supabase
+      const { data: queueUsers, error: fetchError } = await (supabase as any)
         .from("matchmaking_queue")
         .select("user_id")
         .neq("user_id", currentUserId)
@@ -121,13 +121,13 @@ export const useVoiceCall = (currentUserId: string) => {
         const partnerId = queueUsers.user_id;
 
         // Remove both from queue
-        await supabase
+        await (supabase as any)
           .from("matchmaking_queue")
           .delete()
           .in("user_id", [currentUserId, partnerId]);
 
         // Create call record
-        const { data: call, error: callError } = await supabase
+        const { data: call, error: callError } = await (supabase as any)
           .from("calls")
           .insert({
             caller_id: currentUserId,
@@ -140,7 +140,7 @@ export const useVoiceCall = (currentUserId: string) => {
         if (callError) throw callError;
 
         // Get partner profile
-        const { data: profile } = await supabase
+        const { data: profile } = await (supabase as any)
           .from("profiles")
           .select("full_name")
           .eq("id", partnerId)
@@ -169,7 +169,7 @@ export const useVoiceCall = (currentUserId: string) => {
 
   // Cancel matchmaking
   const cancelMatchmaking = async () => {
-    await supabase
+    await (supabase as any)
       .from("matchmaking_queue")
       .delete()
       .eq("user_id", currentUserId);
@@ -181,13 +181,13 @@ export const useVoiceCall = (currentUserId: string) => {
   const endCall = async () => {
     if (callState.callId) {
       // Update call status
-      await supabase
+      await (supabase as any)
         .from("calls")
         .update({ status: "ended", ended_at: new Date().toISOString() })
         .eq("id", callState.callId);
 
       // Notify the other user that call ended via realtime
-      await supabase
+      await (supabase as any)
         .from("call_signals")
         .insert({
           call_id: callState.callId,
@@ -258,7 +258,7 @@ export const useVoiceCall = (currentUserId: string) => {
           const call = payload.new;
 
           // Get caller profile
-          const { data: profile } = await supabase
+          const { data: profile } = await (supabase as any)
             .from("profiles")
             .select("full_name")
             .eq("id", call.caller_id)
@@ -313,7 +313,7 @@ export const useVoiceCall = (currentUserId: string) => {
               const answer = await peerConnection.current.createAnswer();
               await peerConnection.current.setLocalDescription(answer);
 
-              await supabase.from("call_signals").insert({
+              await (supabase as any).from("call_signals").insert({
                 call_id: callState.callId,
                 sender_id: currentUserId,
                 signal_type: "answer",

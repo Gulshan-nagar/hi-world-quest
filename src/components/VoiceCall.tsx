@@ -28,7 +28,7 @@ const VoiceCall = ({ callId, isInitiator, partnerId, onEndCall }: VoiceCallProps
 
   const loadPartnerName = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("profiles")
         .select("full_name")
         .eq("id", partnerId)
@@ -45,7 +45,7 @@ const VoiceCall = ({ callId, isInitiator, partnerId, onEndCall }: VoiceCallProps
 
   async function handleCallEnd() {
     try {
-      await supabase
+      await (supabase as any)
         .from("calls")
         .update({ status: "ended", ended_at: new Date().toISOString() })
         .eq("id", callId);

@@ -26,7 +26,7 @@ const AdminUsers = () => {
 
   const loadUsers = async () => {
     try {
-      const { data: profiles, error: profilesError } = await supabase
+      const { data: profiles, error: profilesError } = await (supabase as any)
         .from("profiles")
         .select("id, full_name, created_at")
         .order("created_at", { ascending: false });
@@ -37,7 +37,7 @@ const AdminUsers = () => {
 
       if (authError) throw authError;
 
-      const { data: blocks } = await supabase
+      const { data: blocks } = await (supabase as any)
         .from("user_blocks")
         .select("user_id")
         .is("unblocked_at", null);
@@ -74,7 +74,7 @@ const AdminUsers = () => {
       if (!admin) return;
 
       if (currentlyBlocked) {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from("user_blocks")
           .update({ unblocked_at: new Date().toISOString() })
           .eq("user_id", userId)
@@ -87,7 +87,7 @@ const AdminUsers = () => {
           description: "User has been unblocked successfully",
         });
       } else {
-        const { error } = await supabase.from("user_blocks").insert({
+        const { error } = await (supabase as any).from("user_blocks").insert({
           user_id: userId,
           blocked_by: admin.id,
           reason: "Blocked by admin",

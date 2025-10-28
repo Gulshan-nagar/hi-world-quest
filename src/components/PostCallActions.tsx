@@ -28,7 +28,7 @@ const PostCallActions = ({
 
   const handleAddFriend = async () => {
     try {
-      const { error } = await supabase.from("friend_requests").insert({
+      const { error } = await (supabase as any).from("friend_requests").insert({
         sender_id: currentUserId,
         receiver_id: partnerId,
         status: "pending",
@@ -75,7 +75,7 @@ const PostCallActions = ({
     }
 
     try {
-      const { error } = await supabase.from("call_feedback").insert({
+      const { error } = await (supabase as any).from("call_feedback").insert({
         call_id: callId,
         user_id: currentUserId,
         rating,

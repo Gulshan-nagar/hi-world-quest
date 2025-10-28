@@ -23,7 +23,7 @@ const UsersList = ({ currentUserId }: UsersListProps) => {
 
   const loadUsers = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("profiles")
         .select("*")
         .neq("id", currentUserId);
