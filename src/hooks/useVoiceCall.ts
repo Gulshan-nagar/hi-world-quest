@@ -56,7 +56,7 @@ export const useVoiceCall = (currentUserId: string) => {
       // Handle ICE candidates
       peerConnection.current.onicecandidate = async (event) => {
         if (event.candidate) {
-          await supabase.from("call_signals").insert({
+          await (supabase as any).from("call_signals" as any).insert({
             call_id: callId,
             sender_id: currentUserId,
             signal_type: "ice-candidate",
@@ -70,7 +70,7 @@ export const useVoiceCall = (currentUserId: string) => {
         const offer = await peerConnection.current.createOffer();
         await peerConnection.current.setLocalDescription(offer);
 
-        await supabase.from("call_signals").insert({
+        await (supabase as any).from("call_signals" as any).insert({
           call_id: callId,
           sender_id: currentUserId,
           signal_type: "offer",

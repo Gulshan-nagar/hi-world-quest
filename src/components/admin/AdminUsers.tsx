@@ -33,7 +33,7 @@ const AdminUsers = () => {
 
       if (profilesError) throw profilesError;
 
-      const { data: { users: authUsers }, error: authError } = await supabase.auth.admin.listUsers();
+      const { data: { users: authUsers }, error: authError } = await supabase.auth.admin.listUsers() as any;
 
       if (authError) throw authError;
 
@@ -42,9 +42,9 @@ const AdminUsers = () => {
         .select("user_id")
         .is("unblocked_at", null);
 
-      const blockedIds = new Set(blocks?.map((b) => b.user_id) || []);
+      const blockedIds = new Set(blocks?.map((b: any) => b.user_id) || []);
 
-      const usersWithEmail = (profiles || []).map((profile) => {
+      const usersWithEmail = ((profiles || []) as any[]).map((profile: any) => {
         const authUser = authUsers.find((u) => u.id === profile.id);
         return {
           id: profile.id,

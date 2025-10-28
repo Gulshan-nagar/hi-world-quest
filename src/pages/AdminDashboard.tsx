@@ -35,8 +35,8 @@ const AdminDashboard = () => {
         return;
       }
 
-      const { data: roles } = await supabase
-        .from("user_roles")
+      const { data: roles } = await (supabase as any)
+        .from("user_roles" as any)
         .select("role")
         .eq("user_id", user.id)
         .eq("role", "admin")
@@ -65,12 +65,12 @@ const AdminDashboard = () => {
   const loadStats = async () => {
     try {
       const [usersCount, reportsCount, feedbackCount] = await Promise.all([
-        supabase.from("profiles").select("id", { count: "exact", head: true }),
-        supabase
-          .from("user_reports")
+        (supabase as any).from("profiles" as any).select("id", { count: "exact", head: true }),
+        (supabase as any)
+          .from("user_reports" as any)
           .select("id", { count: "exact", head: true })
           .eq("status", "pending"),
-        supabase.from("call_feedback").select("id", { count: "exact", head: true }),
+        (supabase as any).from("call_feedback" as any).select("id", { count: "exact", head: true }),
       ]);
 
       setStats({

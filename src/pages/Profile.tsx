@@ -49,8 +49,8 @@ const Profile = () => {
 
   const loadProfile = async (userId: string) => {
     try {
-      const { data, error } = await supabase
-        .from("profiles")
+      const { data, error } = await (supabase as any)
+        .from("profiles" as any)
         .select("*")
         .eq("id", userId)
         .maybeSingle();
@@ -59,9 +59,9 @@ const Profile = () => {
 
       if (data) {
         setProfile({
-          full_name: data.full_name || "",
-          bio: data.bio || "",
-          skills: data.skills || "",
+          full_name: (data as any).full_name || "",
+          bio: (data as any).bio || "",
+          skills: (data as any).skills || "",
         });
       }
     } catch (error: any) {
@@ -75,8 +75,8 @@ const Profile = () => {
 
     setSaving(true);
     try {
-      const { error } = await supabase
-        .from("profiles")
+      const { error } = await (supabase as any)
+        .from("profiles" as any)
         .upsert({
           id: user.id,
           full_name: profile.full_name,

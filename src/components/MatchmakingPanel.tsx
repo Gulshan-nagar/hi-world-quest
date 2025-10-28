@@ -119,8 +119,8 @@ const MatchmakingPanel = ({ currentUserId, onCallStart }: MatchmakingPanelProps)
 
   const cancelSearch = async () => {
     try {
-      await supabase
-        .from("matchmaking_queue")
+      await (supabase as any)
+        .from("matchmaking_queue" as any)
         .delete()
         .eq("user_id", currentUserId);
 

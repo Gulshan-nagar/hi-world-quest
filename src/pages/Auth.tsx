@@ -65,13 +65,13 @@ const Auth = () => {
       // Check if profile exists
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        const { data: profile } = await supabase
-          .from("profiles")
+        const { data: profile } = await (supabase as any)
+          .from("profiles" as any)
           .select("*")
           .eq("id", user.id)
-          .single();
+          .maybeSingle();
 
-        if (!profile?.full_name) {
+        if (!profile || !(profile as any)?.full_name) {
           navigate("/profile-setup");
         } else {
           navigate("/dashboard");

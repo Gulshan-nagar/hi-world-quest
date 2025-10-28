@@ -55,7 +55,7 @@ export const useWebRTC = ({ callId, isInitiator, onCallEnd }: UseWebRTCProps) =>
           if (event.candidate) {
             const user = await supabase.auth.getUser();
             if (user.data.user?.id) {
-              await supabase.from("call_signals").insert({
+              await (supabase as any).from("call_signals" as any).insert({
                 call_id: callId,
                 sender_id: user.data.user.id,
                 signal_type: "ice-candidate",
@@ -79,7 +79,7 @@ export const useWebRTC = ({ callId, isInitiator, onCallEnd }: UseWebRTCProps) =>
           await pc.setLocalDescription(offer);
           const user = await supabase.auth.getUser();
           if (user.data.user?.id) {
-            await supabase.from("call_signals").insert({
+            await (supabase as any).from("call_signals" as any).insert({
               call_id: callId,
               sender_id: user.data.user.id,
               signal_type: "offer",
@@ -111,7 +111,7 @@ export const useWebRTC = ({ callId, isInitiator, onCallEnd }: UseWebRTCProps) =>
                 const answer = await pc.createAnswer();
                 await pc.setLocalDescription(answer);
                 if (currentUserId) {
-                  await supabase.from("call_signals").insert({
+                  await (supabase as any).from("call_signals" as any).insert({
                     call_id: callId,
                     sender_id: currentUserId,
                     signal_type: "answer",
