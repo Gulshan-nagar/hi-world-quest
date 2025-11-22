@@ -92,6 +92,39 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+        </div>
+        <div className="relative z-10 text-center px-4 animate-fade-in">
+          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 text-white drop-shadow-lg">
+            Jaisalmer Safari Packages
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto drop-shadow-md">
+            Experience the magic of the Thar Desert with our premium safari packages
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              size="lg"
+              className="bg-gradient-royal hover:opacity-90 transition-opacity text-lg px-8"
+            >
+              <NavLink to="/packages">Explore Packages</NavLink>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-white border-white hover:bg-white hover:text-foreground transition-all text-lg px-8"
+            >
+              <NavLink to="/contact">Contact Us</NavLink>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Safari Packages Section */}
       <section className="py-8 px-4 bg-background">
         <div className="container mx-auto">
