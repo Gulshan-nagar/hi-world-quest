@@ -20,7 +20,7 @@ const Navbar = () => {
           {/* Logo */}
           <NavLink to="/" className="flex items-center space-x-2">
             <div className="text-2xl font-serif font-bold text-primary">
-              Jaisalmer Safari Luxury
+              Thar Desert Safari
             </div>
           </NavLink>
 

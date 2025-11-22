@@ -1,10 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Star, Tent, Compass, Moon, Users, Award } from "lucide-react";
 import heroImage from "@/assets/hero-desert.jpg";
 import camelSafari from "@/assets/camel-safari.jpg";
 import jeepSafari from "@/assets/jeep-safari.jpg";
 import luxuryTent from "@/assets/luxury-tent.jpg";
+import iataLogo from "@/assets/iata-logo.png";
+import tripadvisorLogo from "@/assets/tripadvisor-logo.png";
+import trustpilotLogo from "@/assets/trustpilot-logo.png";
 import { NavLink } from "@/components/NavLink";
 
 const Home = () => {
@@ -33,25 +37,31 @@ const Home = () => {
 
   const packages = [
     {
-      title: "Sunset Camel Safari",
-      image: camelSafari,
-      duration: "3-4 Hours",
-      price: "From ₹2,500",
-      highlights: ["Sunset views", "Traditional camel ride", "Desert tea", "Photo stops"],
-    },
-    {
-      title: "Jeep Desert Adventure",
+      title: "Jeep Desert Safari",
       image: jeepSafari,
-      duration: "Full Day",
+      options: ["Sunrise Safari", "Sunset Safari"],
       price: "From ₹4,500",
-      highlights: ["Thrilling dune bashing", "Village visits", "Lunch included", "Sunrise/Sunset"],
+      highlights: ["Thrilling dune bashing", "Village visits", "Professional guide", "Photo stops"],
     },
     {
-      title: "Luxury Camp Stay",
+      title: "Camel Desert Safari",
+      image: camelSafari,
+      options: ["Sunrise Safari", "Sunset Safari"],
+      price: "From ₹2,500",
+      highlights: ["Traditional camel ride", "Desert views", "Tea & snacks", "Cultural experience"],
+    },
+    {
+      title: "Night Desert Safari",
       image: luxuryTent,
-      duration: "Overnight",
+      options: ["With Dinner", "Without Dinner"],
+      price: "From ₹3,500",
+      highlights: ["Star gazing", "Bonfire experience", "Cultural show", "Desert camping"],
+    },
+    {
+      title: "Desert Safari Camp",
+      image: luxuryTent,
       price: "From ₹8,999",
-      highlights: ["Premium tent", "Cultural show", "Dinner & Breakfast", "Bonfire night"],
+      highlights: ["Premium tent stay", "Dinner & Breakfast", "Cultural evening", "Overnight camping"],
     },
   ];
 
@@ -78,18 +88,20 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Hero Section - will be added */}
+      
       {/* Safari Packages Section */}
-      <section className="py-8 px-4 bg-background">
+      <section className="py-16 px-4 bg-background my-12">
         <div className="container mx-auto">
           <div className="text-center mb-8 animate-fade-in">
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-foreground">
-              Our Safari Packages
+              Desert Safari Packages
             </h2>
             <div className="w-24 h-1 bg-gradient-royal mx-auto"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {packages.map((pkg, index) => (
+            {packages.slice(0, 3).map((pkg, index) => (
               <Card
                 key={index}
                 className="overflow-hidden hover:shadow-luxury transition-all duration-300 hover:-translate-y-2"
@@ -105,10 +117,21 @@ const Home = () => {
                   <h3 className="text-xl font-serif font-bold mb-2 text-foreground">
                     {pkg.title}
                   </h3>
-                  <div className="flex justify-between items-center mb-3 text-muted-foreground text-sm">
-                    <span>{pkg.duration}</span>
-                    <span className="text-primary font-semibold">{pkg.price}</span>
+                  <div className="mb-3">
+                    <span className="text-primary font-semibold text-lg">{pkg.price}</span>
                   </div>
+                  {pkg.options && (
+                    <div className="mb-3">
+                      <p className="text-xs font-semibold text-muted-foreground mb-1">Options:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {pkg.options.map((option, i) => (
+                          <span key={i} className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">
+                            {option}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   <ul className="space-y-1 mb-4">
                     {pkg.highlights.map((highlight, i) => (
                       <li key={i} className="flex items-center text-xs text-muted-foreground">
@@ -117,9 +140,11 @@ const Home = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full bg-gradient-royal hover:opacity-90 transition-opacity" size="sm">
-                    <NavLink to="/packages">View Details</NavLink>
-                  </Button>
+                  <NavLink to={`/packages/${pkg.title.toLowerCase().replace(/ /g, '-')}`}>
+                    <Button className="w-full bg-gradient-royal hover:opacity-90 transition-opacity" size="sm">
+                      View Details
+                    </Button>
+                  </NavLink>
                 </CardContent>
               </Card>
             ))}
@@ -129,6 +154,44 @@ const Home = () => {
             <Button size="lg" variant="outline" className="hover:bg-primary hover:text-white transition-all">
               <NavLink to="/packages">View All Packages</NavLink>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-12 px-4 bg-background">
+        <div className="container mx-auto">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4 text-foreground">
+              What Our Guests Say
+            </h2>
+            <div className="w-24 h-1 bg-gradient-royal mx-auto mb-6"></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="hover:shadow-luxury transition-all duration-300">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Avatar className="h-12 w-12 mr-3">
+                      <AvatarFallback className="bg-primary text-white">
+                        {testimonial.name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-semibold text-foreground">{testimonial.name}</p>
+                      <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                    </div>
+                  </div>
+                  <div className="flex mb-3">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground italic">"{testimonial.text}"</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -165,34 +228,62 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Jaisalmer Gallery Section */}
+      <section className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4 text-foreground">
+              Jaisalmer Gallery
+            </h2>
+            <div className="w-24 h-1 bg-gradient-royal mx-auto mb-6"></div>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Explore the beauty of the Thar Desert through our collection
+            </p>
+          </div>
 
-      {/* Testimonials Section */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {[heroImage, camelSafari, jeepSafari, luxuryTent, heroImage, camelSafari].map((img, index) => (
+              <div key={index} className="overflow-hidden rounded-lg hover:shadow-luxury transition-all duration-300">
+                <img
+                  src={img}
+                  alt={`Gallery ${index + 1}`}
+                  className="w-full h-64 object-cover hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Associates Section */}
       <section className="py-20 px-4 bg-background">
         <div className="container mx-auto">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4 text-foreground">
-              What Our Guests Say
+              Our Associates
             </h2>
             <div className="w-24 h-1 bg-gradient-royal mx-auto mb-6"></div>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Trusted partners in creating exceptional desert experiences
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="hover:shadow-luxury transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-4 italic">"{testimonial.text}"</p>
-                  <div>
-                    <p className="font-semibold text-foreground">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.location}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 items-center max-w-4xl mx-auto">
+            <Card className="hover:shadow-luxury transition-all duration-300">
+              <CardContent className="p-8 flex items-center justify-center">
+                <img src={iataLogo} alt="IATA" className="h-16 object-contain" />
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-luxury transition-all duration-300">
+              <CardContent className="p-8 flex items-center justify-center">
+                <img src={trustpilotLogo} alt="Trustpilot" className="h-12 object-contain" />
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-luxury transition-all duration-300">
+              <CardContent className="p-8 flex items-center justify-center">
+                <img src={tripadvisorLogo} alt="TripAdvisor" className="h-16 object-contain" />
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

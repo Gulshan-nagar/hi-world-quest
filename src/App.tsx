@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Home from "./pages/Home";
 import Packages from "./pages/Packages";
+import PackageDetail from "./pages/PackageDetail";
 import Camps from "./pages/Camps";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -26,6 +27,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/packages" element={<Packages />} />
+              <Route path="/packages/:id" element={<PackageDetail />} />
               <Route path="/camps" element={<Camps />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="*" element={<NotFound />} />

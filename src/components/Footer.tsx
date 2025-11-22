@@ -9,7 +9,7 @@ const Footer = () => {
           {/* About */}
           <div>
             <h3 className="text-2xl font-serif font-bold text-primary mb-4">
-              Jaisalmer Safari Luxury
+              Thar Desert Safari
             </h3>
             <p className="text-gray-300 text-sm leading-relaxed">
               Experience the royal Thar Desert with premium safaris, luxury camps, and authentic Rajasthani hospitality.
@@ -91,7 +91,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} Jaisalmer Safari Luxury. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Thar Desert Safari. All rights reserved.</p>
         </div>
       </div>
     </footer>
