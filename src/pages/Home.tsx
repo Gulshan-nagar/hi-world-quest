@@ -9,13 +9,16 @@ import luxuryTent from "@/assets/luxury-tent.jpg";
 import iataLogo from "@/assets/iata-logo.png";
 import tripadvisorLogo from "@/assets/tripadvisor-logo.png";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
-import clientSarah from "@/assets/client-sarah-real.jpg";
-import clientRahul from "@/assets/client-rahul-real.jpg";
-import clientEmma from "@/assets/client-emma-real.jpg";
-import featureSwissTent from "@/assets/feature-swiss-tent-real.jpg";
-import featureSafariGuide from "@/assets/feature-safari-guide-real.jpg";
-import featureStargazing from "@/assets/feature-stargazing-real.jpg";
-import featureCultural from "@/assets/feature-cultural-real.jpg";
+// Client testimonial images - Add your own images to assets folder
+import clientSarah from "@/assets/client-sarah-real.jpg";  // Replace with your image
+import clientRahul from "@/assets/client-rahul-real.jpg";  // Replace with your image
+import clientEmma from "@/assets/client-emma-real.jpg";    // Replace with your image
+
+// Feature images - Add your own images to assets folder
+import featureSwissTent from "@/assets/feature-swiss-tent-real.jpg";      // Replace with your image
+import featureSafariGuide from "@/assets/feature-safari-guide-real.jpg";  // Replace with your image
+import featureStargazing from "@/assets/feature-stargazing-real.jpg";     // Replace with your image
+import featureCultural from "@/assets/feature-cultural-real.jpg";         // Replace with your image
 import { NavLink } from "@/components/NavLink";
 
 const Home = () => {
