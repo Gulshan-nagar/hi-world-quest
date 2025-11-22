@@ -5,6 +5,13 @@ import heroImage from "@/assets/hero-desert.jpg";
 import camelSafari from "@/assets/camel-safari.jpg";
 import jeepSafari from "@/assets/jeep-safari.jpg";
 import luxuryTent from "@/assets/luxury-tent.jpg";
+import featureLuxuryTent from "@/assets/feature-luxury-tent.jpg";
+import featureCamelSafari from "@/assets/feature-camel-safari.jpg";
+import featureStargazing from "@/assets/feature-stargazing.jpg";
+import featureCultural from "@/assets/feature-cultural.jpg";
+import clientSarah from "@/assets/client-sarah.jpg";
+import clientRahul from "@/assets/client-rahul.jpg";
+import clientEmma from "@/assets/client-emma.jpg";
 import { NavLink } from "@/components/NavLink";
 
 const Home = () => {
@@ -13,21 +20,25 @@ const Home = () => {
       icon: Tent,
       title: "Premium Swiss Tents",
       description: "Luxurious accommodations with modern amenities in the heart of the desert",
+      image: featureLuxuryTent,
     },
     {
       icon: Compass,
       title: "Private Safari Experience",
       description: "Personalized tours with expert local guides who know every dune",
+      image: featureCamelSafari,
     },
     {
       icon: Moon,
       title: "Star-Gazing Nights",
       description: "Unforgettable evenings under pristine desert skies filled with stars",
+      image: featureStargazing,
     },
     {
       icon: Users,
       title: "Cultural Evenings",
       description: "Authentic folk performances and traditional Rajasthani hospitality",
+      image: featureCultural,
     },
   ];
 
@@ -61,18 +72,21 @@ const Home = () => {
       location: "United Kingdom",
       rating: 5,
       text: "An absolutely magical experience! The sunset camel ride was breathtaking, and the camp was luxurious beyond expectations.",
+      image: clientSarah,
     },
     {
       name: "Rahul Sharma",
       location: "Mumbai, India",
       rating: 5,
       text: "Perfect blend of adventure and comfort. The staff was incredibly hospitable, and the cultural evening was authentic and beautiful.",
+      image: clientRahul,
     },
     {
       name: "Emma Williams",
       location: "Australia",
       rating: 5,
       text: "Best desert safari experience ever! The jeep tour was thrilling, and sleeping under the stars in such luxury was unforgettable.",
+      image: clientEmma,
     },
   ];
 
@@ -150,8 +164,15 @@ const Home = () => {
             {features.map((feature, index) => (
               <Card
                 key={index}
-                className="border-border hover:shadow-luxury transition-all duration-300 hover:-translate-y-2"
+                className="border-border hover:shadow-luxury transition-all duration-300 hover:-translate-y-2 overflow-hidden"
               >
+                <div className="h-48 overflow-hidden">
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
                 <CardContent className="p-6 text-center">
                   <div className="bg-gradient-royal rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                     <feature.icon className="h-8 w-8 text-white" />
@@ -180,16 +201,23 @@ const Home = () => {
             {testimonials.map((testimonial, index) => (
               <Card key={index} className="hover:shadow-luxury transition-all duration-300">
                 <CardContent className="p-6">
+                  <div className="flex items-center gap-4 mb-4">
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      className="w-16 h-16 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="font-semibold text-foreground">{testimonial.name}</p>
+                      <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                    </div>
+                  </div>
                   <div className="flex mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="h-5 w-5 fill-primary text-primary" />
                     ))}
                   </div>
-                  <p className="text-muted-foreground mb-4 italic">"{testimonial.text}"</p>
-                  <div>
-                    <p className="font-semibold text-foreground">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.location}</p>
-                  </div>
+                  <p className="text-muted-foreground italic">"{testimonial.text}"</p>
                 </CardContent>
               </Card>
             ))}
