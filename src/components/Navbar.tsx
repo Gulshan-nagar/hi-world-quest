@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Prevent scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const navLinks = [
     { to: "/", label: "Home" },
@@ -67,41 +79,62 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden py-4 animate-fade-in">
-            <div className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.to}
-                  to={link.to}
-                  className="text-foreground hover:text-primary transition-colors font-medium py-2"
-                  activeClassName="text-primary"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </NavLink>
-              ))}
-              <div className="flex flex-col space-y-2 pt-4 border-t border-border">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => window.open("tel:+919876543210")}
-                  className="gap-2 w-full"
-                >
-                  <Phone className="h-4 w-4" />
-                  Call Now
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => window.open("https://wa.me/919876543210?text=Hello, I'm interested in booking a desert safari", "_blank")}
-                  className="bg-gradient-royal hover:opacity-90 transition-opacity w-full"
-                >
-                  Book via WhatsApp
-                </Button>
-              </div>
+        {/* Mobile Menu with Smooth Animations */}
+        <div
+          className={`md:hidden fixed inset-0 top-20 bg-background z-40 transition-all duration-300 ease-in-out ${
+            isOpen
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 translate-x-full pointer-events-none"
+          }`}
+        >
+          <div className="flex flex-col space-y-6 px-4 py-8 animate-fade-in">
+            {navLinks.map((link, index) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                onClick={() => setIsOpen(false)}
+                className="text-foreground hover:text-primary transition-all duration-200 text-lg transform hover:translate-x-2"
+                activeClassName="text-primary font-semibold"
+                style={{
+                  animationDelay: `${index * 50}ms`,
+                }}
+              >
+                {link.label}
+              </NavLink>
+            ))}
+            <div className="space-y-3 pt-4">
+              <Button 
+                className="w-full bg-gradient-royal hover:opacity-90 transition-all duration-200 hover:scale-105" 
+                size="lg"
+                onClick={() => window.open("tel:+919876543210")}
+              >
+                <Phone className="h-5 w-5 mr-2" />
+                Call Now
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full transition-all duration-200 hover:scale-105"
+                size="lg"
+                onClick={() => {
+                  window.open(
+                    "https://wa.me/919876543210?text=Hello, I'm interested in booking a desert safari",
+                    "_blank"
+                  );
+                  setIsOpen(false);
+                }}
+              >
+                Book via WhatsApp
+              </Button>
             </div>
           </div>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {isOpen && (
+          <div
+            className="md:hidden fixed inset-0 top-20 bg-black/20 z-30 animate-fade-in"
+            onClick={() => setIsOpen(false)}
+          />
         )}
       </div>
     </nav>
