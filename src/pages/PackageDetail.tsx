@@ -8,6 +8,17 @@ import camelSafari from "@/assets/camel-safari.jpg";
 import jeepSafari from "@/assets/jeep-safari.jpg";
 import luxuryTent from "@/assets/luxury-tent.jpg";
 import heroDesert from "@/assets/hero-desert.jpg";
+import { BookingForm } from "@/components/BookingForm";
+import { AvailabilityCalendar } from "@/components/AvailabilityCalendar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const PackageDetail = () => {
   const { id } = useParams();
@@ -16,12 +27,14 @@ const PackageDetail = () => {
   const [quantity, setQuantity] = useState(1);
 
   const packageData: Record<string, any> = {
-    "jeep-safari": {
+    "jeep-desert-adventure": {
       title: "Jeep Desert Safari",
       subtitle: "Thrilling Dune Experience",
       images: [jeepSafari, heroDesert, camelSafari, luxuryTent],
       originalPrice: "₹6,000",
       price: "₹4,500",
+      basePrice: 4500,
+      packageSlug: "jeep-desert-adventure",
       rating: 5,
       duration: "6-8 Hours",
       capacity: "Up to 6 people per jeep",
@@ -57,14 +70,16 @@ const PackageDetail = () => {
         "Hotel pick-up and drop-off"
       ],
       meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
-      relatedPackages: ["camel-safari", "night-safari"]
+      relatedPackages: ["sunset-camel-safari", "luxury-overnight-camp"]
     },
-    "camel-safari": {
+    "sunset-camel-safari": {
       title: "Camel Desert Safari",
       subtitle: "Classic Desert Experience",
       images: [camelSafari, heroDesert, jeepSafari, luxuryTent],
       originalPrice: "₹4,000",
       price: "₹2,500",
+      basePrice: 2500,
+      packageSlug: "sunset-camel-safari",
       rating: 5,
       duration: "3-4 Hours",
       capacity: "Up to 4 people",
@@ -100,14 +115,16 @@ const PackageDetail = () => {
         "Hotel pick-up and drop-off"
       ],
       meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
-      relatedPackages: ["jeep-safari", "night-safari"]
+      relatedPackages: ["jeep-desert-adventure", "luxury-overnight-camp"]
     },
-    "night-safari": {
-      title: "Night Desert Safari",
-      subtitle: "Stargazing & Bonfire Experience",
+    "luxury-overnight-camp": {
+      title: "Luxury Overnight Camp",
+      subtitle: "Premium Desert Experience",
       images: [luxuryTent, heroDesert, camelSafari, jeepSafari],
-      originalPrice: "₹5,500",
-      price: "₹3,500",
+      originalPrice: "₹12,999",
+      price: "₹8,999",
+      basePrice: 8999,
+      packageSlug: "luxury-overnight-camp",
       rating: 5,
       duration: "5-6 Hours",
       capacity: "Up to 6 people",
@@ -143,14 +160,16 @@ const PackageDetail = () => {
         "Hotel pick-up and drop-off"
       ],
       meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
-      relatedPackages: ["jeep-safari", "desert-camp"]
+      relatedPackages: ["jeep-desert-adventure", "sunset-camel-safari"]
     },
-    "desert-camp": {
-      title: "Desert Safari Camp",
-      subtitle: "Premium Overnight Stay",
+    "royal-desert-expedition": {
+      title: "Royal Desert Expedition",
+      subtitle: "Ultimate Desert Experience",
       images: [luxuryTent, heroDesert, camelSafari, jeepSafari],
-      originalPrice: "₹12,999",
-      price: "₹8,999",
+      originalPrice: "₹16,999",
+      price: "₹12,999",
+      basePrice: 12999,
+      packageSlug: "royal-desert-expedition",
       rating: 5,
       duration: "24 Hours",
       capacity: "Up to 2 people per tent",
@@ -188,11 +207,11 @@ const PackageDetail = () => {
         "Modern attached washroom"
       ],
       meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
-      relatedPackages: ["jeep-safari", "night-safari"]
+      relatedPackages: ["jeep-desert-adventure", "luxury-overnight-camp"]
     }
   };
 
-  const pkg = packageData[id || ""] || packageData["jeep-safari"];
+  const pkg = packageData[id || ""] || packageData["jeep-desert-adventure"];
 
   const handleBooking = () => {
     window.open(
@@ -322,20 +341,47 @@ const PackageDetail = () => {
             </Card>
 
             <div className="space-y-3">
-              <Button
-                className="w-full bg-gradient-royal hover:opacity-90 transition-opacity"
-                size="lg"
-                onClick={handleBooking}
-              >
-                Book Now via WhatsApp
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    className="w-full bg-gradient-royal hover:opacity-90 transition-opacity"
+                    size="lg"
+                  >
+                    Book Now
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Book {pkg.title}</DialogTitle>
+                    <DialogDescription>
+                      Fill in your details to complete the booking
+                    </DialogDescription>
+                  </DialogHeader>
+                  <Tabs defaultValue="booking" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="booking">Booking Form</TabsTrigger>
+                      <TabsTrigger value="availability">Check Availability</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="booking" className="mt-6">
+                      <BookingForm
+                        packageName={pkg.packageSlug}
+                        packageTitle={pkg.title}
+                        basePrice={pkg.basePrice}
+                      />
+                    </TabsContent>
+                    <TabsContent value="availability" className="mt-6">
+                      <AvailabilityCalendar packageName={pkg.packageSlug} />
+                    </TabsContent>
+                  </Tabs>
+                </DialogContent>
+              </Dialog>
               <Button
                 variant="outline"
                 className="w-full"
                 size="lg"
                 onClick={handleBooking}
               >
-                Contact Us
+                Contact via WhatsApp
               </Button>
             </div>
           </div>
