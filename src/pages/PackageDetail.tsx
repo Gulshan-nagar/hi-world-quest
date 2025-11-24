@@ -27,14 +27,14 @@ const PackageDetail = () => {
   const [quantity, setQuantity] = useState(1);
 
   const packageData: Record<string, any> = {
-    "jeep-desert-adventure": {
+    "jeep-desert-safari": {
       title: "Jeep Desert Safari",
       subtitle: "Thrilling Dune Experience",
       images: [jeepSafari, heroDesert, camelSafari, luxuryTent],
       originalPrice: "₹6,000",
       price: "₹4,500",
       basePrice: 4500,
-      packageSlug: "jeep-desert-adventure",
+      packageSlug: "jeep-desert-safari",
       rating: 5,
       duration: "6-8 Hours",
       capacity: "Up to 6 people per jeep",
@@ -70,16 +70,16 @@ const PackageDetail = () => {
         "Hotel pick-up and drop-off"
       ],
       meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
-      relatedPackages: ["sunset-camel-safari", "luxury-overnight-camp"]
+      relatedPackages: ["camel-desert-safari", "night-desert-safari"]
     },
-    "sunset-camel-safari": {
+    "camel-desert-safari": {
       title: "Camel Desert Safari",
       subtitle: "Classic Desert Experience",
       images: [camelSafari, heroDesert, jeepSafari, luxuryTent],
       originalPrice: "₹4,000",
       price: "₹2,500",
       basePrice: 2500,
-      packageSlug: "sunset-camel-safari",
+      packageSlug: "camel-desert-safari",
       rating: 5,
       duration: "3-4 Hours",
       capacity: "Up to 4 people",
@@ -115,16 +115,16 @@ const PackageDetail = () => {
         "Hotel pick-up and drop-off"
       ],
       meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
-      relatedPackages: ["jeep-desert-adventure", "luxury-overnight-camp"]
+      relatedPackages: ["jeep-desert-safari", "night-desert-safari"]
     },
-    "luxury-overnight-camp": {
-      title: "Luxury Overnight Camp",
+    "night-desert-safari": {
+      title: "Night Desert Safari",
       subtitle: "Premium Desert Experience",
       images: [luxuryTent, heroDesert, camelSafari, jeepSafari],
-      originalPrice: "₹12,999",
-      price: "₹8,999",
-      basePrice: 8999,
-      packageSlug: "luxury-overnight-camp",
+      originalPrice: "₹5,000",
+      price: "₹3,500",
+      basePrice: 3500,
+      packageSlug: "night-desert-safari",
       rating: 5,
       duration: "5-6 Hours",
       capacity: "Up to 6 people",
@@ -160,16 +160,16 @@ const PackageDetail = () => {
         "Hotel pick-up and drop-off"
       ],
       meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
-      relatedPackages: ["jeep-desert-adventure", "sunset-camel-safari"]
+      relatedPackages: ["jeep-desert-safari", "camel-desert-safari"]
     },
-    "royal-desert-expedition": {
-      title: "Royal Desert Expedition",
+    "desert-safari-camp": {
+      title: "Desert Safari Camp",
       subtitle: "Ultimate Desert Experience",
       images: [luxuryTent, heroDesert, camelSafari, jeepSafari],
-      originalPrice: "₹16,999",
-      price: "₹12,999",
-      basePrice: 12999,
-      packageSlug: "royal-desert-expedition",
+      originalPrice: "₹12,999",
+      price: "₹8,999",
+      basePrice: 8999,
+      packageSlug: "desert-safari-camp",
       rating: 5,
       duration: "24 Hours",
       capacity: "Up to 2 people per tent",
@@ -207,11 +207,56 @@ const PackageDetail = () => {
         "Modern attached washroom"
       ],
       meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
-      relatedPackages: ["jeep-desert-adventure", "luxury-overnight-camp"]
+      relatedPackages: ["jeep-desert-safari", "night-desert-safari"]
+    },
+    "complete-packages": {
+      title: "Complete Packages",
+      subtitle: "All-in-One Experience",
+      images: [jeepSafari, camelSafari, luxuryTent, heroDesert],
+      originalPrice: "₹4,000",
+      price: "₹2,500",
+      basePrice: 2500,
+      packageSlug: "complete-packages",
+      rating: 5,
+      duration: "Flexible",
+      capacity: "Varies by package",
+      timing: "Customizable",
+      location: "Sam Sand Dunes, Jaisalmer",
+      options: ["Jeep Safari", "Camel Safari", "Night Safari", "Camp Stay"],
+      description: "Choose from our flexible package options. Mix and match different safari types to create your perfect desert experience. Prices vary based on selected activities.",
+      expectations: [
+        {
+          title: "All Safari Types",
+          description: "Access to jeep safaris, camel rides, night experiences, and camp stays."
+        },
+        {
+          title: "Flexible Options",
+          description: "Customize your experience by combining different activities."
+        },
+        {
+          title: "Custom Combinations",
+          description: "Build your ideal desert adventure with our mix-and-match packages."
+        },
+        {
+          title: "Best Value Deals",
+          description: "Save more when you book multiple activities together."
+        }
+      ],
+      inclusions: [
+        "Choice of safari activities",
+        "Experienced guides",
+        "All equipment and facilities",
+        "Flexible timing options",
+        "Hotel pick-up and drop-off",
+        "Custom itinerary planning",
+        "Group discounts available"
+      ],
+      meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
+      relatedPackages: ["jeep-desert-safari", "camel-desert-safari"]
     }
   };
 
-  const pkg = packageData[id || ""] || packageData["jeep-desert-adventure"];
+  const pkg = packageData[id || ""] || packageData["jeep-desert-safari"];
 
   const handleBooking = () => {
     window.open(

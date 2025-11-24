@@ -17,7 +17,7 @@ export type Database = {
       bookings: {
         Row: {
           booking_date: string
-          created_at: string
+          created_at: string | null
           customer_email: string
           customer_name: string
           customer_phone: string
@@ -27,11 +27,11 @@ export type Database = {
           special_requests: string | null
           status: string
           total_price: number
-          updated_at: string
+          updated_at: string | null
         }
         Insert: {
           booking_date: string
-          created_at?: string
+          created_at?: string | null
           customer_email: string
           customer_name: string
           customer_phone: string
@@ -41,11 +41,11 @@ export type Database = {
           special_requests?: string | null
           status?: string
           total_price: number
-          updated_at?: string
+          updated_at?: string | null
         }
         Update: {
           booking_date?: string
-          created_at?: string
+          created_at?: string | null
           customer_email?: string
           customer_name?: string
           customer_phone?: string
@@ -55,7 +55,37 @@ export type Database = {
           special_requests?: string | null
           status?: string
           total_price?: number
-          updated_at?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      package_availability: {
+        Row: {
+          available_slots: number
+          created_at: string | null
+          date: string
+          id: string
+          max_slots: number
+          package_name: string
+          updated_at: string | null
+        }
+        Insert: {
+          available_slots: number
+          created_at?: string | null
+          date: string
+          id?: string
+          max_slots: number
+          package_name: string
+          updated_at?: string | null
+        }
+        Update: {
+          available_slots?: number
+          created_at?: string | null
+          date?: string
+          id?: string
+          max_slots?: number
+          package_name?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -64,7 +94,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_availability: {
+        Args: {
+          booking_date: string
+          pkg_name: string
+          slots_to_reduce: number
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
