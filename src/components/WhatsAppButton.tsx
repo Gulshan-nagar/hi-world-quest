@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 const WhatsAppButton = () => {
   const handleWhatsAppClick = () => {
     window.open(
-      "https://wa.me/919876543210?text=Hello, I'm interested in booking a desert safari",
+      "https://wa.me/918690305357?text=Hi Gulshan, I'm interested in booking a desert safari",
       "_blank"
     );
   };

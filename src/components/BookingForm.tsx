@@ -46,6 +46,7 @@ const bookingSchema = z.object({
   date: z.date({
     required_error: "Please select a date",
   }),
+  packageOption: z.string().optional(),
   groupSize: z.string().min(1, "Please select group size"),
   specialRequests: z.string().max(500).optional(),
 });
@@ -54,10 +55,11 @@ type BookingFormProps = {
   packageName: string;
   packageTitle: string;
   basePrice: number;
+  packageOptions?: string[];
   onSuccess?: () => void;
 };
 
-export function BookingForm({ packageName, packageTitle, basePrice, onSuccess }: BookingFormProps) {
+export function BookingForm({ packageName, packageTitle, basePrice, packageOptions, onSuccess }: BookingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [bookingDetails, setBookingDetails] = useState<any>(null);
@@ -77,13 +79,17 @@ export function BookingForm({ packageName, packageTitle, basePrice, onSuccess }:
     
     try {
       const groupSize = parseInt(values.groupSize);
-      const totalPrice = basePrice * groupSize;
+      const totalPrice = basePrice;
 
       // Insert booking
+      const packageNameWithOption = values.packageOption 
+        ? `${packageName} - ${values.packageOption}`
+        : packageName;
+      
       const { data, error } = await supabase
         .from("bookings")
         .insert({
-          package_name: packageName,
+          package_name: packageNameWithOption,
           customer_name: values.name,
           customer_email: values.email,
           customer_phone: values.phone,
@@ -97,12 +103,45 @@ export function BookingForm({ packageName, packageTitle, basePrice, onSuccess }:
 
       if (error) throw error;
 
-      // Update availability
-      const { error: availError } = await supabase.rpc('update_availability', {
-        pkg_name: packageName,
-        booking_date: format(values.date, "yyyy-MM-dd"),
-        slots_to_reduce: 1
-      });
+      // Send booking confirmation emails
+      try {
+        const packageDetails = values.packageOption 
+          ? `${packageTitle} - ${values.packageOption}`
+          : packageTitle;
+          
+        await supabase.functions.invoke('send-booking-confirmation', {
+          body: {
+            customerName: values.name,
+            customerEmail: values.email,
+            customerPhone: values.phone,
+            packageName: packageDetails,
+            bookingDate: format(values.date, "MMMM d, yyyy"),
+            groupSize: groupSize,
+            totalPrice: totalPrice,
+            specialRequests: values.specialRequests || '',
+          },
+        });
+      } catch (emailError) {
+        console.error('Error sending confirmation email:', emailError);
+        // Don't fail the booking if email fails
+      }
+
+      // Send WhatsApp message to business number with customer details
+      const whatsappMessage = encodeURIComponent(
+        `New Booking Request!\n\n` +
+        `Package: ${values.packageOption ? `${packageTitle} - ${values.packageOption}` : packageTitle}\n` +
+        `Customer Name: ${values.name}\n` +
+        `Customer Phone: ${values.phone}\n` +
+        `Customer Email: ${values.email}\n` +
+        `Date: ${format(values.date, "MMMM d, yyyy")}\n` +
+        `Group Size: ${groupSize} people\n` +
+        `Total Price: ₹${totalPrice}\n` +
+        (values.specialRequests ? `Special Requests: ${values.specialRequests}\n` : '') +
+        `\nPlease contact the customer to confirm booking.`
+      );
+      
+      // Open WhatsApp in new tab (non-blocking)
+      window.open(`https://wa.me/918690305357?text=${whatsappMessage}`, '_blank');
 
       setBookingDetails({
         ...data,
@@ -124,6 +163,7 @@ export function BookingForm({ packageName, packageTitle, basePrice, onSuccess }:
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
           <FormField
             control={form.control}
             name="name"
@@ -165,6 +205,33 @@ export function BookingForm({ packageName, packageTitle, basePrice, onSuccess }:
               </FormItem>
             )}
           />
+
+          {packageOptions && packageOptions.length > 0 && (
+            <FormField
+              control={form.control}
+              name="packageOption"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Package Option</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select option" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {packageOptions.map((option) => (
+                        <SelectItem key={option} value={option}>
+                          {option}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           <FormField
             control={form.control}

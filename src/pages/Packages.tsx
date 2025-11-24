@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Clock, Users, MapPin, Award } from "lucide-react";
+import { Award } from "lucide-react";
 import camelSafari from "@/assets/camel-safari.jpg";
 import jeepSafari from "@/assets/jeep-safari.jpg";
 import luxuryTent from "@/assets/luxury-tent.jpg";
@@ -10,43 +10,42 @@ const Packages = () => {
   const packages = [
     {
       id: 1,
-      title: "Sunset Camel Safari",
-      image: camelSafari,
-      duration: "3-4 Hours",
-      groupSize: "2-10 People",
-      timing: "4:00 PM - 8:00 PM",
-      price: "From ₹2,500",
-      highlights: ["Traditional camel ride", "Sunset viewing", "Rajasthani tea", "Photo stops", "Cultural insights", "Hotel pickup & drop"],
+      title: "Jeep Desert Safari",
+      image: jeepSafari,
+      options: ["Sunrise Safari", "Sunset Safari"],
+      price: "From ₹4,500",
+      highlights: ["Thrilling dune bashing", "Village visits", "Professional guide", "Photo stops"],
     },
     {
       id: 2,
-      title: "Jeep Desert Adventure",
-      image: jeepSafari,
-      duration: "6-8 Hours",
-      groupSize: "4-6 People",
-      timing: "Morning or Evening",
-      price: "From ₹4,500",
-      highlights: ["4x4 Jeep safari", "Dune bashing", "Village visits", "Traditional lunch", "Sunrise/sunset", "Photography guidance"],
+      title: "Camel Desert Safari",
+      image: camelSafari,
+      options: ["Sunrise Safari", "Sunset Safari"],
+      price: "From ₹2,500",
+      highlights: ["Traditional camel ride", "Desert views", "Tea & snacks", "Cultural experience"],
     },
     {
       id: 3,
-      title: "Luxury Overnight Camp",
+      title: "Night Desert Safari",
       image: luxuryTent,
-      duration: "24 Hours",
-      groupSize: "2-4 People",
-      timing: "3:00 PM - 11:00 AM",
-      price: "From ₹8,999",
-      highlights: ["Luxury Swiss tent", "Camel/jeep safari", "Folk dance & music", "Traditional dinner", "Bonfire", "Star-gazing", "Breakfast included"],
+      options: ["With Dinner", "Without Dinner"],
+      price: "From ₹3,500",
+      highlights: ["Star gazing", "Bonfire experience", "Cultural show", "Desert camping"],
     },
     {
       id: 4,
-      title: "Royal Desert Expedition",
-      image: camelSafari,
-      duration: "2 Days / 1 Night",
-      groupSize: "2-8 People",
-      timing: "Flexible Start Time",
-      price: "From ₹12,999",
-      highlights: ["All meals included", "Luxury camping", "Jeep & camel safari", "Fort & haveli tours", "Cultural program", "Professional photography"],
+      title: "Desert Safari Camp",
+      image: luxuryTent,
+      price: "From ₹8,999",
+      highlights: ["Premium tent stay", "Dinner & Breakfast", "Cultural evening", "Overnight camping"],
+    },
+    {
+      id: 5,
+      title: "Complete Packages",
+      image: jeepSafari,
+      options: ["Jeep Safari", "Camel Safari", "Night Safari", "Camp Stay"],
+      price: "From ₹2,500",
+      highlights: ["All safari types", "Flexible options", "Custom combinations", "Best value deals"],
     },
   ];
 
@@ -86,22 +85,20 @@ const Packages = () => {
                 <div className="mb-3">
                   <span className="text-primary font-semibold text-lg">{pkg.price}</span>
                 </div>
-                <div className="grid grid-cols-3 gap-2 mb-3">
-                  <div className="flex flex-col items-center text-center">
-                    <Clock className="h-4 w-4 text-primary mb-1" />
-                    <p className="text-xs text-muted-foreground">{pkg.duration}</p>
+                {pkg.options && (
+                  <div className="mb-3">
+                    <p className="text-xs font-semibold text-muted-foreground mb-1">Options:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {pkg.options.map((option, i) => (
+                        <span key={i} className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">
+                          {option}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex flex-col items-center text-center">
-                    <Users className="h-4 w-4 text-primary mb-1" />
-                    <p className="text-xs text-muted-foreground">{pkg.groupSize}</p>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <MapPin className="h-4 w-4 text-primary mb-1" />
-                    <p className="text-xs text-muted-foreground line-clamp-2">{pkg.timing}</p>
-                  </div>
-                </div>
+                )}
                 <ul className="space-y-1 mb-4">
-                  {pkg.highlights.slice(0, 4).map((highlight, i) => (
+                  {pkg.highlights.map((highlight, i) => (
                     <li key={i} className="flex items-center text-xs text-muted-foreground">
                       <Award className="h-3 w-3 mr-1 text-primary flex-shrink-0" />
                       {highlight}

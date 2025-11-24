@@ -215,7 +215,7 @@ const PackageDetail = () => {
 
   const handleBooking = () => {
     window.open(
-      `https://wa.me/919876543210?text=Hello, I'm interested in booking ${pkg.title}`,
+      `https://wa.me/918690305357?text=Hi Gulshan, I'm interested in booking ${pkg.title}`,
       "_blank"
     );
   };
@@ -302,18 +302,6 @@ const PackageDetail = () => {
               </div>
             </div>
 
-            {pkg.options.length > 0 && (
-              <div className="mb-6">
-                <p className="text-sm font-semibold text-foreground mb-2">Options:</p>
-                <div className="flex flex-wrap gap-2">
-                  {pkg.options.map((option: string, i: number) => (
-                    <Badge key={i} variant="outline" className="text-primary border-primary">
-                      {option}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
 
             <Card className="mb-6">
               <CardContent className="p-4">
@@ -367,6 +355,7 @@ const PackageDetail = () => {
                         packageName={pkg.packageSlug}
                         packageTitle={pkg.title}
                         basePrice={pkg.basePrice}
+                        packageOptions={pkg.options}
                       />
                     </TabsContent>
                     <TabsContent value="availability" className="mt-6">
@@ -388,14 +377,17 @@ const PackageDetail = () => {
         </div>
 
         {/* Description Section */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-serif font-bold mb-4 text-foreground">
-            Is the price for 1 person or a complete booking?
-          </h2>
-          <p className="text-muted-foreground leading-relaxed">
-            {pkg.description}
-          </p>
-        </div>
+        <Card className="mb-12 border-l-4 border-l-primary">
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-serif font-bold mb-4 text-foreground flex items-center gap-2">
+              <span className="text-primary">💰</span>
+              Is the price for 1 person or a complete booking?
+            </h2>
+            <p className="text-muted-foreground leading-relaxed text-lg">
+              {pkg.description}
+            </p>
+          </CardContent>
+        </Card>
 
         {/* What to Expect */}
         <div className="mb-12">
