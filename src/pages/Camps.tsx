@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bed, Wifi, Coffee, Star, Music, Utensils } from "lucide-react";
-import luxuryTent from "@/assets/luxury-tent.jpg";
+import luxuryTent1 from "@/assets/luxury-tent-interior-1.png";
+import luxuryTent2 from "@/assets/luxury-tent-interior-2.png";
+import luxuryTent3 from "@/assets/luxury-tent-interior-3.png";
+import culturalDining from "@/assets/cultural-dining.png";
 
 const Camps = () => {
   const tentTypes = [
@@ -10,7 +13,7 @@ const Camps = () => {
       name: "Swiss Luxury Tent",
       category: "Premium",
       price: "₹8,999 per night",
-      image: luxuryTent,
+      image: luxuryTent1,
       description:
         "Our flagship accommodation offering the perfect blend of traditional charm and modern luxury. Spacious interiors with elegant Rajasthani decor.",
       amenities: [
@@ -26,7 +29,7 @@ const Camps = () => {
       name: "Super Deluxe Tent",
       category: "Deluxe",
       price: "₹6,999 per night",
-      image: luxuryTent,
+      image: luxuryTent2,
       description:
         "Comfortable and well-appointed tents that provide an authentic desert camping experience without compromising on essential comforts.",
       amenities: [
@@ -42,7 +45,7 @@ const Camps = () => {
       name: "Private Desert Villa",
       category: "Ultra Premium",
       price: "₹15,999 per night",
-      image: luxuryTent,
+      image: luxuryTent3,
       description:
         "For those seeking the ultimate in desert luxury. A standalone villa-style tent with exclusive amenities and personalized service.",
       amenities: [
@@ -211,7 +214,7 @@ const Camps = () => {
             </div>
             <div className="animate-fade-in">
               <img
-                src={luxuryTent}
+                src={culturalDining}
                 alt="Camp dining"
                 className="rounded-lg shadow-luxury w-full h-auto"
               />
