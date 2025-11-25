@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Award } from "lucide-react";
-import camelSafari from "@/assets/camel-safari.jpg";
+import camelSafariImg from "@/assets/camel-safari-8.jpeg";
 import jeepSafari from "@/assets/jeep-safari.jpg";
 import luxuryTent from "@/assets/luxury-tent.jpg";
 import { NavLink } from "@/components/NavLink";
@@ -19,7 +19,7 @@ const Packages = () => {
     {
       id: 2,
       title: "Camel Desert Safari",
-      image: camelSafari,
+      image: camelSafariImg,
       options: ["Sunrise Safari", "Sunset Safari"],
       price: "From ₹2,500",
       highlights: ["Traditional camel ride", "Desert views", "Tea & snacks", "Cultural experience"],

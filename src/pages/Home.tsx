@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Star, Tent, Compass, Moon, Users, Award } from "lucide-react";
 import heroImage from "@/assets/hero-desert.jpg";
-import camelSafari from "@/assets/camel-safari.jpg";
+import camelSafariImg from "@/assets/camel-safari-8.jpeg";
 import jeepSafari from "@/assets/jeep-safari.jpg";
 import luxuryTent from "@/assets/luxury-tent.jpg";
 import iataLogo from "@/assets/iata-logo.png";
@@ -22,6 +22,12 @@ import featureCultural from "@/assets/cultural-program-1.png";
 import sunsetSeating from "@/assets/sunset-seating.png";
 import specialSetup from "@/assets/special-setup-night.png";
 import culturalProgram2 from "@/assets/cultural-program-2.png";
+// Additional camel safari images
+import camelSafari1 from "@/assets/camel-safari-1.jpeg";
+import camelSafari2 from "@/assets/camel-safari-2.jpeg";
+import camelSafari5 from "@/assets/camel-safari-5.jpeg";
+import camelSafari7 from "@/assets/camel-safari-7.jpeg";
+import camelSafari8 from "@/assets/camel-safari-8.jpeg";
 import { NavLink } from "@/components/NavLink";
 
 const Home = () => {
@@ -62,7 +68,7 @@ const Home = () => {
     },
     {
       title: "Camel Desert Safari",
-      image: camelSafari,
+      image: camelSafariImg,
       options: ["Sunrise Safari", "Sunset Safari"],
       price: "From ₹2,500",
       highlights: ["Traditional camel ride", "Desert views", "Tea & snacks", "Cultural experience"],
@@ -270,7 +276,7 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[heroImage, camelSafari, jeepSafari, sunsetSeating, featureStargazing, featureCultural, specialSetup, culturalProgram2, luxuryTent].map((img, index) => (
+            {[camelSafariImg, camelSafari8, camelSafari7, camelSafari5, sunsetSeating, featureStargazing, featureCultural, specialSetup, culturalProgram2, camelSafari2, camelSafari1, luxuryTent].map((img, index) => (
               <div key={index} className="overflow-hidden rounded-lg hover:shadow-luxury transition-all duration-300">
                 <img
                   src={img}
