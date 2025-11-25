@@ -14,11 +14,14 @@ import clientSarah from "@/assets/client-sarah-real.jpg";  // Replace with your 
 import clientRahul from "@/assets/client-rahul-real.jpg";  // Replace with your image
 import clientEmma from "@/assets/client-emma-real.jpg";    // Replace with your image
 
-// Feature images - Add your own images to assets folder
-import featureSwissTent from "@/assets/feature-swiss-tent-real.jpg";      // Replace with your image
-import featureSafariGuide from "@/assets/feature-safari-guide-real.jpg";  // Replace with your image
-import featureStargazing from "@/assets/feature-stargazing-real.jpg";     // Replace with your image
-import featureCultural from "@/assets/feature-cultural-real.jpg";         // Replace with your image
+// Feature images - Real images from assets
+import featureSwissTent from "@/assets/luxury-tent-interior-1.png";
+import featureSafariGuide from "@/assets/feature-safari-guide-real.jpg";
+import featureStargazing from "@/assets/stargazing-camp.png";
+import featureCultural from "@/assets/cultural-program-1.png";
+import sunsetSeating from "@/assets/sunset-seating.png";
+import specialSetup from "@/assets/special-setup-night.png";
+import culturalProgram2 from "@/assets/cultural-program-2.png";
 import { NavLink } from "@/components/NavLink";
 
 const Home = () => {
@@ -267,7 +270,7 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[heroImage, camelSafari, jeepSafari, luxuryTent, heroImage, camelSafari].map((img, index) => (
+            {[heroImage, camelSafari, jeepSafari, sunsetSeating, featureStargazing, featureCultural, specialSetup, culturalProgram2, luxuryTent].map((img, index) => (
               <div key={index} className="overflow-hidden rounded-lg hover:shadow-luxury transition-all duration-300">
                 <img
                   src={img}
