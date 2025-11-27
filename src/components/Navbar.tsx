@@ -63,7 +63,7 @@ const Navbar = () => {
             </Button>
             <Button
               size="sm"
-              onClick={() => window.open("https://wa.me/919876543210?text=Hello, I'm interested in booking a desert safari", "_blank")}
+              onClick={() => window.open("https://wa.me/7296967119?text=Hello, I'm interested in booking a desert safari", "_blank")}
               className="bg-gradient-royal hover:opacity-90 transition-opacity"
             >
               Book via WhatsApp

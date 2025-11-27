@@ -20,12 +20,45 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+ interface SafariHighlight {
+  title: string;
+  description: string;
+}
+
+ interface SafariPackage {
+  packageSlug: string;
+  title: string;
+  subtitle: string;
+
+  description: string;
+  duration: string;
+  timing: string;
+  capacity: string;
+  location: string;
+  meetingPoint: string;
+
+  price: string;
+  originalPrice: string;
+  basePrice: number;
+  rating: number;
+
+  images: string[];
+  inclusions: string[];
+  options: string[];
+  relatedPackages: string[];
+
+  expectations: SafariHighlight[];
+}
+
+
+
 const PackageDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const packageData: Record<string, any> = {
     "jeep-desert-safari": {
       title: "Jeep Desert Safari",
@@ -266,6 +299,7 @@ const PackageDetail = () => {
   };
 
   const relatedPackagesData = pkg.relatedPackages.map((relId: string) => packageData[relId]);
+    console.log("checking",relatedPackagesData)
 
   return (
     <div className="min-h-screen pt-24 pb-16 bg-background">
@@ -391,9 +425,8 @@ const PackageDetail = () => {
                     </DialogDescription>
                   </DialogHeader>
                   <Tabs defaultValue="booking" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2">
+                    <TabsList className=" w-full ">
                       <TabsTrigger value="booking">Booking Form</TabsTrigger>
-                      <TabsTrigger value="availability">Check Availability</TabsTrigger>
                     </TabsList>
                     <TabsContent value="booking" className="mt-6">
                       <BookingForm
@@ -402,9 +435,6 @@ const PackageDetail = () => {
                         basePrice={pkg.basePrice}
                         packageOptions={pkg.options}
                       />
-                    </TabsContent>
-                    <TabsContent value="availability" className="mt-6">
-                      <AvailabilityCalendar packageName={pkg.packageSlug} />
                     </TabsContent>
                   </Tabs>
                 </DialogContent>
@@ -439,8 +469,8 @@ const PackageDetail = () => {
           <h2 className="text-2xl font-serif font-bold mb-6 text-foreground">
             What to Expect in This {pkg.title}
           </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {pkg.expectations.map((item: any, index: number) => (
+          <div className="grid md:grid-cols-2 gap-6"> 
+            {pkg.expectations.map((item: SafariHighlight, index: number) => (
               <Card key={index}>
                 <CardContent className="p-6">
                   <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
@@ -508,7 +538,8 @@ const PackageDetail = () => {
             You may also like
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            {relatedPackagesData.map((relPkg: any, index: number) => (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-explicit-any
+            {relatedPackagesData.map((relPkg: SafariPackage, index: number) => (
               <Card
                 key={index}
                 className="overflow-hidden hover:shadow-luxury transition-all duration-300 cursor-pointer"

@@ -29,7 +29,6 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -38,11 +37,14 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { useMutation } from "@tanstack/react-query";
+import api from "@/services/axios_service";
 
 const bookingSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
   email: z.string().email("Invalid email address").max(255),
   phone: z.string().min(10, "Phone must be at least 10 digits").max(15),
+  safari: z.string(),
   date: z.date({
     required_error: "Please select a date",
   }),
@@ -59,111 +61,61 @@ type BookingFormProps = {
   onSuccess?: () => void;
 };
 
-export function BookingForm({ packageName, packageTitle, basePrice, packageOptions, onSuccess }: BookingFormProps) {
+export function BookingForm({
+  packageName,
+  packageTitle,
+  basePrice,
+  packageOptions,
+  onSuccess,
+}: BookingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [bookingDetails, setBookingDetails] = useState<any>(null);
+
 
   const form = useForm<z.infer<typeof bookingSchema>>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       name: "",
       email: "",
+      safari: packageName,
       phone: "",
       specialRequests: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof bookingSchema>) {
-    setIsSubmitting(true);
-    
-    try {
-      const groupSize = parseInt(values.groupSize);
-      const totalPrice = basePrice;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const createTodoMutation = useMutation<any, Error, z.infer<typeof bookingSchema>>({
+  mutationFn: async (bookingValues) => {
+    const res = await api.post("/booking/create-booking", bookingValues);
+    return res.data;
+  },
+  onSuccess: (data) => {
+    toast.success(
+      "booking created succesfull we will call you within 30 minutes!"
+    );
 
-      // Insert booking
-      const packageNameWithOption = values.packageOption 
-        ? `${packageName} - ${values.packageOption}`
-        : packageName;
-      
-      const { data, error } = await supabase
-        .from("bookings")
-        .insert({
-          package_name: packageNameWithOption,
-          customer_name: values.name,
-          customer_email: values.email,
-          customer_phone: values.phone,
-          booking_date: format(values.date, "yyyy-MM-dd"),
-          group_size: groupSize,
-          total_price: totalPrice,
-          special_requests: values.specialRequests || null,
-        })
-        .select()
-        .single();
+    // reset form + close dialog / parent if needed
+    form.reset();
+    setShowConfirmation(false); // or true, depending on 
 
-      if (error) throw error;
-
-      // Send booking confirmation emails
-      try {
-        const packageDetails = values.packageOption 
-          ? `${packageTitle} - ${values.packageOption}`
-          : packageTitle;
-          
-        await supabase.functions.invoke('send-booking-confirmation', {
-          body: {
-            customerName: values.name,
-            customerEmail: values.email,
-            customerPhone: values.phone,
-            packageName: packageDetails,
-            bookingDate: format(values.date, "MMMM d, yyyy"),
-            groupSize: groupSize,
-            totalPrice: totalPrice,
-            specialRequests: values.specialRequests || '',
-          },
-        });
-      } catch (emailError) {
-        console.error('Error sending confirmation email:', emailError);
-        // Don't fail the booking if email fails
-      }
-
-      // Send WhatsApp message to business number with customer details
-      const whatsappMessage = encodeURIComponent(
-        `New Booking Request!\n\n` +
-        `Package: ${values.packageOption ? `${packageTitle} - ${values.packageOption}` : packageTitle}\n` +
-        `Customer Name: ${values.name}\n` +
-        `Customer Phone: ${values.phone}\n` +
-        `Customer Email: ${values.email}\n` +
-        `Date: ${format(values.date, "MMMM d, yyyy")}\n` +
-        `Group Size: ${groupSize} people\n` +
-        `Total Price: ₹${totalPrice}\n` +
-        (values.specialRequests ? `Special Requests: ${values.specialRequests}\n` : '') +
-        `\nPlease contact the customer to confirm booking.`
-      );
-      
-      // Open WhatsApp in new tab (non-blocking)
-      window.open(`https://wa.me/918690305357?text=${whatsappMessage}`, '_blank');
-
-      setBookingDetails({
-        ...data,
-        packageTitle,
-      });
-      setShowConfirmation(true);
-      form.reset();
-      toast.success("Booking confirmed!");
-      onSuccess?.();
-    } catch (error: any) {
-      console.error("Booking error:", error);
-      toast.error("Failed to create booking. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    console.log("Todo created:", data);
+  },
+  onError: (error) => {
+    toast.error("something went wrong!");
+    console.error("Failed to create todo:", error);
+  },
+});
+  async function onSubmit(bookingValues: z.infer<typeof bookingSchema>) {
+    // console.log("booking details", bookingValues);
+    createTodoMutation.mutate(bookingValues);
   }
 
   return (
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
           <FormField
             control={form.control}
             name="name"
@@ -185,7 +137,11 @@ export function BookingForm({ packageName, packageTitle, basePrice, packageOptio
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="john@example.com" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="john@example.com"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -205,6 +161,19 @@ export function BookingForm({ packageName, packageTitle, basePrice, packageOptio
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="safari"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Safari Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="jeep safari" {...field} readOnly />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {packageOptions && packageOptions.length > 0 && (
             <FormField
@@ -213,7 +182,10 @@ export function BookingForm({ packageName, packageTitle, basePrice, packageOptio
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Package Option</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select option" />
@@ -264,7 +236,8 @@ export function BookingForm({ packageName, packageTitle, basePrice, packageOptio
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) =>
-                        date < new Date() || date > new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
+                        date < new Date() ||
+                        date > new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
                       }
                       initialFocus
                       className="pointer-events-auto"
@@ -282,7 +255,10 @@ export function BookingForm({ packageName, packageTitle, basePrice, packageOptio
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Group Size</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select group size" />
@@ -343,7 +319,9 @@ export function BookingForm({ packageName, packageTitle, basePrice, packageOptio
       <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-2xl">Booking Confirmed! 🎉</DialogTitle>
+            <DialogTitle className="text-2xl">
+              Booking Confirmed! 🎉
+            </DialogTitle>
             <DialogDescription>
               Your booking has been successfully confirmed.
             </DialogDescription>
@@ -351,27 +329,35 @@ export function BookingForm({ packageName, packageTitle, basePrice, packageOptio
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <p className="text-sm font-medium">Package:</p>
-              <p className="text-sm text-muted-foreground">{bookingDetails?.packageTitle}</p>
+              <p className="text-sm text-muted-foreground">
+                {bookingDetails?.packageTitle}
+              </p>
             </div>
             <div className="space-y-2">
               <p className="text-sm font-medium">Booking Date:</p>
               <p className="text-sm text-muted-foreground">
-                {bookingDetails?.booking_date && format(new Date(bookingDetails.booking_date), "PPP")}
+                {bookingDetails?.booking_date &&
+                  format(new Date(bookingDetails.booking_date), "PPP")}
               </p>
             </div>
             <div className="space-y-2">
               <p className="text-sm font-medium">Group Size:</p>
-              <p className="text-sm text-muted-foreground">{bookingDetails?.group_size} people</p>
+              <p className="text-sm text-muted-foreground">
+                {bookingDetails?.group_size} people
+              </p>
             </div>
             <div className="space-y-2">
               <p className="text-sm font-medium">Total Amount:</p>
-              <p className="text-lg font-bold text-primary">₹{bookingDetails?.total_price}</p>
+              <p className="text-lg font-bold text-primary">
+                ₹{bookingDetails?.total_price}
+              </p>
             </div>
             <div className="space-y-2">
               <p className="text-sm font-medium">Confirmation Details:</p>
               <p className="text-xs text-muted-foreground">
-                A confirmation email has been sent to {bookingDetails?.customer_email}. 
-                We'll contact you at {bookingDetails?.customer_phone} for further details.
+                A confirmation email has been sent to{" "}
+                {bookingDetails?.customer_email}. We'll contact you at{" "}
+                {bookingDetails?.customer_phone} for further details.
               </p>
             </div>
           </div>
