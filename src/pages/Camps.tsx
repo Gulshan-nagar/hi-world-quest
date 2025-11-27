@@ -116,7 +116,7 @@ const Camps = () => {
       <div className="px-4 mb-16">
         <div className="container mx-auto text-center animate-fade-in">
           <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4 text-foreground">
-            Luxury Desert Camps
+            Desert Safari Packages
           </h1>
           <div className="w-24 h-1 bg-gradient-royal mx-auto mb-6"></div>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
