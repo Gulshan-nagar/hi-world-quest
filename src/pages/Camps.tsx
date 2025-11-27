@@ -2,59 +2,80 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bed, Wifi, Coffee, Star, Music, Utensils } from "lucide-react";
-import luxuryTent1 from "@/assets/luxury-tent-interior-1.png";
-import luxuryTent2 from "@/assets/luxury-tent-interior-2.png";
-import luxuryTent3 from "@/assets/luxury-tent-interior-3.png";
+import camelSafari5 from "@/assets/camel-safari-5.jpeg";
+import camelSafari8 from "@/assets/camel-safari-8.jpeg";
+import culturalProgram from "@/assets/cultural-program-1.png";
+import luxuryTent from "@/assets/luxury-tent-interior-1.png";
 import culturalDining from "@/assets/cultural-dining.png";
 
 const Camps = () => {
-  const tentTypes = [
+  const packageOptions = [
     {
-      name: "Swiss Luxury Tent",
+      name: "Cultural Program Package",
+      category: "Essential",
+      price: "₹4,899",
+      extraPerson: "₹2,399",
+      image: culturalProgram,
+      description:
+        "Perfect for couples seeking authentic Rajasthani culture with traditional welcome, camel ride, and cultural show.",
+      highlights: [
+        "Luxury stay in Swiss tent",
+        "Welcome drink & traditional tilak",
+        "Buffet dinner with Rajasthani cuisine",
+        "Breakfast included",
+        "Camel safari experience",
+        "Folk dance & music show",
+      ],
+    },
+    {
+      name: "MAP + Cultural Program + Jeep & Camel Safari",
+      category: "Popular",
+      price: "₹6,899",
+      extraPerson: "₹3,399",
+      image: camelSafari5,
+      description:
+        "Complete desert adventure with jeep safari, camel ride, cultural night, and MAP plan for a memorable experience.",
+      highlights: [
+        "MAP plan (breakfast + dinner)",
+        "Jeep safari adventure",
+        "Camel ride at sunset",
+        "Rajasthani cultural night",
+        "Traditional buffet meals",
+        "Bonfire & stargazing",
+      ],
+    },
+    {
+      name: "MAP + Cultural Program + Jeep + Night + Camel Safari",
       category: "Premium",
-      price: "₹8,999 per night",
-      image: luxuryTent1,
+      price: "₹7,899",
+      extraPerson: "₹3,899",
+      image: camelSafari8,
       description:
-        "Our flagship accommodation offering the perfect blend of traditional charm and modern luxury. Spacious interiors with elegant Rajasthani decor.",
-      amenities: [
-        "King-size bed with premium linens",
-        "Attached modern washroom",
-        "Hot & cold water",
-        "Private veranda",
-        "Air cooler",
-        "Charging points",
+        "Ultimate safari package with sunset jeep safari, exclusive night leopard safari, music show, and all meals included.",
+      highlights: [
+        "MAP plan (breakfast + dinner)",
+        "Sunset jeep safari",
+        "Night leopard safari experience",
+        "Camel safari at dusk",
+        "Cultural music & dance show",
+        "Premium buffet dining",
       ],
     },
     {
-      name: "Super Deluxe Tent",
-      category: "Deluxe",
-      price: "₹6,999 per night",
-      image: luxuryTent2,
+      name: "Premium All-Safari Package (Full Experience)",
+      category: "Luxury",
+      price: "₹9,899",
+      extraPerson: "₹4,899",
+      image: luxuryTent,
       description:
-        "Comfortable and well-appointed tents that provide an authentic desert camping experience without compromising on essential comforts.",
-      amenities: [
-        "Double bed with quality bedding",
-        "Attached washroom",
-        "Running water facility",
-        "Seating area",
-        "Adequate lighting",
-        "Storage space",
-      ],
-    },
-    {
-      name: "Private Desert Villa",
-      category: "Ultra Premium",
-      price: "₹15,999 per night",
-      image: luxuryTent3,
-      description:
-        "For those seeking the ultimate in desert luxury. A standalone villa-style tent with exclusive amenities and personalized service.",
-      amenities: [
-        "Separate living and sleeping areas",
-        "Premium bathroom with bathtub",
-        "Private outdoor lounge",
-        "Personal butler service",
-        "Mini bar",
-        "Premium toiletries",
+        "The complete luxury desert experience with all safaris, full cultural night, and premium accommodations for unforgettable memories.",
+      highlights: [
+        "All safari experiences included",
+        "Full cultural night program",
+        "Premium Swiss luxury stay",
+        "MAP plan with gourmet meals",
+        "Private bonfire setup",
+        "Personalized service & attention",
       ],
     },
   ];
@@ -109,39 +130,45 @@ const Camps = () => {
       <section className="px-4 mb-20">
         <div className="container mx-auto">
           <h2 className="text-3xl font-serif font-bold text-center mb-12 text-foreground">
-            Choose Your Accommodation
+            Choose Your Perfect Package
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {tentTypes.map((tent, index) => (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+            {packageOptions.map((pkg, index) => (
               <Card
                 key={index}
                 className="overflow-hidden hover:shadow-luxury transition-all duration-300 hover:-translate-y-2"
               >
-                <div className="h-64 overflow-hidden relative">
+                <div className="h-48 overflow-hidden relative">
                   <Badge className="absolute top-4 right-4 bg-gradient-royal z-10">
-                    {tent.category}
+                    {pkg.category}
                   </Badge>
                   <img
-                    src={tent.image}
-                    alt={tent.name}
+                    src={pkg.image}
+                    alt={pkg.name}
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                   />
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="text-2xl font-serif font-bold mb-2 text-foreground">
-                    {tent.name}
+                <CardContent className="p-5">
+                  <h3 className="text-lg font-serif font-bold mb-2 text-foreground line-clamp-2 min-h-[3.5rem]">
+                    {pkg.name}
                   </h3>
-                  <p className="text-2xl font-semibold text-primary mb-4">{tent.price}</p>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {tent.description}
+                  <div className="mb-3">
+                    <p className="text-2xl font-semibold text-primary">{pkg.price}</p>
+                    <p className="text-sm text-muted-foreground">per couple</p>
+                    <p className="text-sm text-accent font-medium mt-1">
+                      Extra person: {pkg.extraPerson}
+                    </p>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-2">
+                    {pkg.description}
                   </p>
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-foreground mb-3">Amenities:</h4>
-                    <ul className="space-y-2">
-                      {tent.amenities.map((amenity, i) => (
-                        <li key={i} className="flex items-center text-sm text-muted-foreground">
-                          <Bed className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
-                          {amenity}
+                  <div className="mb-4">
+                    <h4 className="font-semibold text-foreground mb-2 text-sm">Includes:</h4>
+                    <ul className="space-y-1.5">
+                      {pkg.highlights.slice(0, 4).map((highlight, i) => (
+                        <li key={i} className="flex items-start text-xs text-muted-foreground">
+                          <Star className="h-3 w-3 mr-2 text-primary flex-shrink-0 mt-0.5 fill-primary" />
+                          {highlight}
                         </li>
                       ))}
                     </ul>
@@ -150,7 +177,7 @@ const Camps = () => {
                     className="w-full bg-gradient-royal hover:opacity-90 transition-opacity"
                     onClick={handleBooking}
                   >
-                    Book Now
+                    View Details
                   </Button>
                 </CardContent>
               </Card>
