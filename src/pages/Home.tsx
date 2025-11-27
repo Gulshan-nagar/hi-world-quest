@@ -16,9 +16,10 @@ import clientEmma from "@/assets/client-emma-real.jpg";    // Replace with your 
 
 // Feature images - Real images from assets
 import featureSwissTent from "@/assets/luxury-tent-interior-1.png";
-import featureSafariGuide from "@/assets/feature-safari-guide-real.jpg";
 import featureStargazing from "@/assets/stargazing-camp.png";
 import featureCultural from "@/assets/cultural-program-1.png";
+// Video import
+import desertVideo from "@/assets/jaisalmer desert camp - 9636693406 (2).mp4";
 import sunsetSeating from "@/assets/sunset-seating.png";
 import specialSetup from "@/assets/special-setup-night.png";
 import culturalProgram2 from "@/assets/cultural-program-2.png";
@@ -42,7 +43,7 @@ const Home = () => {
       icon: Compass,
       title: "Private Safari Experience",
       description: "Personalized tours with expert local guides who know every dune",
-      image: featureSafariGuide,
+      image: camelSafari7,
     },
     {
       icon: Moon,
@@ -81,10 +82,11 @@ const Home = () => {
       highlights: ["Star gazing", "Bonfire experience", "Cultural show", "Desert camping"],
     },
     {
-      title: "Desert Safari Camp",
+      title: "Desert Safari Packages",
       image: luxuryTent,
-      price: "From ₹8,999",
-      highlights: ["Premium tent stay", "Dinner & Breakfast", "Cultural evening", "Overnight camping"],
+      price: "From ₹4,899",
+      highlights: ["Premium tent stay", "Multiple safari options", "Cultural evening", "Customizable packages"],
+      isLuxuryCamps: true,
     },
   ];
 
@@ -166,7 +168,7 @@ const Home = () => {
                       </li>
                     ))}
                   </ul>
-                  <NavLink to={`/packages/${pkg.title.toLowerCase().replace(/ /g, '-')}`}>
+                  <NavLink to={pkg.isLuxuryCamps ? "/camps" : `/packages/${pkg.title.toLowerCase().replace(/ /g, '-')}`}>
                     <Button className="w-full bg-gradient-royal hover:opacity-90 transition-opacity" size="sm">
                       View Details
                     </Button>
@@ -258,6 +260,32 @@ const Home = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Video Section */}
+      <section className="py-20 px-4 bg-background">
+        <div className="container mx-auto">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4 text-foreground">
+              Experience the Desert Magic
+            </h2>
+            <div className="w-24 h-1 bg-gradient-royal mx-auto mb-6"></div>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Watch our guests experience the beauty and adventure of Jaisalmer
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto rounded-lg overflow-hidden shadow-luxury">
+            <video 
+              controls 
+              className="w-full"
+              poster={heroImage}
+            >
+              <source src={desertVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </section>
