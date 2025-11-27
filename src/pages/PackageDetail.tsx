@@ -256,7 +256,7 @@ const PackageDetail = () => {
       timing: "Customizable",
       location: "Sam Sand Dunes, Jaisalmer",
       options: ["Jeep Safari", "Camel Safari", "Night Safari", "Camp Stay"],
-      description: "Choose from our flexible package options. Mix and match different safari types to create your perfect desert experience. Prices vary based on selected activities.",
+      description: "Choose from our flexible package options. Mix and match different safari types to create your perfect desert experience. Visit our Desert Safari Packages page for detailed pricing.",
       expectations: [
         {
           title: "All Safari Types",
@@ -285,7 +285,8 @@ const PackageDetail = () => {
         "Group discounts available"
       ],
       meetingPoint: "Thar Desert Safari Pick-up Point, Sam - Conveniently located with parking facilities and a warm welcome from our friendly team.",
-      relatedPackages: ["jeep-desert-safari", "camel-desert-safari"]
+      relatedPackages: ["jeep-desert-safari", "camel-desert-safari"],
+      redirectTo: "/camps"
     }
   };
 
@@ -408,37 +409,47 @@ const PackageDetail = () => {
             </Card>
 
             <div className="space-y-3">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    className="w-full bg-gradient-royal hover:opacity-90 transition-opacity"
-                    size="lg"
-                  >
-                    Book Now
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle>Book {pkg.title}</DialogTitle>
-                    <DialogDescription>
-                      Fill in your details to complete the booking
-                    </DialogDescription>
-                  </DialogHeader>
-                  <Tabs defaultValue="booking" className="w-full">
-                    <TabsList className=" w-full ">
-                      <TabsTrigger value="booking">Booking Form</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="booking" className="mt-6">
-                      <BookingForm
-                        packageName={pkg.packageSlug}
-                        packageTitle={pkg.title}
-                        basePrice={pkg.basePrice}
-                        packageOptions={pkg.options}
-                      />
-                    </TabsContent>
-                  </Tabs>
-                </DialogContent>
-              </Dialog>
+              {pkg.redirectTo ? (
+                <Button
+                  className="w-full bg-gradient-royal hover:opacity-90 transition-opacity"
+                  size="lg"
+                  onClick={() => navigate(pkg.redirectTo)}
+                >
+                  View All Packages
+                </Button>
+              ) : (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      className="w-full bg-gradient-royal hover:opacity-90 transition-opacity"
+                      size="lg"
+                    >
+                      Book Now
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>Book {pkg.title}</DialogTitle>
+                      <DialogDescription>
+                        Fill in your details to complete the booking
+                      </DialogDescription>
+                    </DialogHeader>
+                    <Tabs defaultValue="booking" className="w-full">
+                      <TabsList className=" w-full ">
+                        <TabsTrigger value="booking">Booking Form</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="booking" className="mt-6">
+                        <BookingForm
+                          packageName={pkg.packageSlug}
+                          packageTitle={pkg.title}
+                          basePrice={pkg.basePrice}
+                          packageOptions={pkg.options}
+                        />
+                      </TabsContent>
+                    </Tabs>
+                  </DialogContent>
+                </Dialog>
+              )}
               <Button
                 variant="outline"
                 className="w-full"

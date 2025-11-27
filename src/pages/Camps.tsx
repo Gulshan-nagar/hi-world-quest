@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Bed, Wifi, Coffee, Star, Music, Utensils } from "lucide-react";
+import { Star, Utensils } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { BookingForm } from "@/components/BookingForm";
 import camelSafari5 from "@/assets/camel-safari-5.jpeg";
 import camelSafari8 from "@/assets/camel-safari-8.jpeg";
 import culturalProgram from "@/assets/cultural-program-1.png";
@@ -9,6 +12,13 @@ import luxuryTent from "@/assets/luxury-tent-interior-1.png";
 import culturalDining from "@/assets/cultural-dining.png";
 
 const Camps = () => {
+  const [selectedPackage, setSelectedPackage] = useState<{
+    name: string;
+    price: string;
+    extraPerson: string;
+  } | null>(null);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+
   const packageOptions = [
     {
       name: "Cultural Program Package",
@@ -80,34 +90,9 @@ const Camps = () => {
     },
   ];
 
-  const campActivities = [
-    {
-      icon: Music,
-      title: "Folk Dance & Music",
-      description: "Traditional Rajasthani performances every evening",
-    },
-    {
-      icon: Star,
-      title: "Star Gazing",
-      description: "Astronomy sessions under the pristine desert sky",
-    },
-    {
-      icon: Utensils,
-      title: "Gourmet Dining",
-      description: "Authentic Rajasthani cuisine with modern twists",
-    },
-    {
-      icon: Coffee,
-      title: "Bonfire Evenings",
-      description: "Warm gatherings under the stars with chai and stories",
-    },
-  ];
-
-  const handleBooking = () => {
-    window.open(
-      "https://wa.me/919876543210?text=Hello, I'd like to book a luxury camp stay",
-      "_blank"
-    );
+  const handleBooking = (pkg: typeof packageOptions[0]) => {
+    setSelectedPackage(pkg);
+    setIsBookingOpen(true);
   };
 
   return (
@@ -119,10 +104,6 @@ const Camps = () => {
             Desert Safari Packages
           </h1>
           <div className="w-24 h-1 bg-gradient-royal mx-auto mb-6"></div>
-          <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-            Experience unparalleled comfort in the heart of the Thar Desert. Our camps combine
-            traditional Rajasthani hospitality with modern luxury amenities.
-          </p>
         </div>
       </div>
 
@@ -175,7 +156,7 @@ const Camps = () => {
                   </div>
                   <Button
                     className="w-full bg-gradient-royal hover:opacity-90 transition-opacity"
-                    onClick={handleBooking}
+                    onClick={() => handleBooking(pkg)}
                   >
                     View Details
                   </Button>
@@ -186,30 +167,6 @@ const Camps = () => {
         </div>
       </section>
 
-      {/* Camp Activities */}
-      <section className="px-4 py-20 bg-secondary/30">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-serif font-bold text-center mb-12 text-foreground">
-            Camp Activities & Experiences
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {campActivities.map((activity, index) => (
-              <Card
-                key={index}
-                className="border-border hover:shadow-luxury transition-all duration-300 hover:-translate-y-2"
-              >
-                <CardContent className="p-6 text-center">
-                  <div className="bg-gradient-royal rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <activity.icon className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">{activity.title}</h3>
-                  <p className="text-muted-foreground">{activity.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Dining Section */}
       <section className="px-4 py-20">
@@ -262,12 +219,24 @@ const Camps = () => {
           <Button
             size="lg"
             className="bg-white text-foreground hover:bg-white/90 transition-opacity text-lg px-8"
-            onClick={handleBooking}
+            onClick={() => setIsBookingOpen(true)}
           >
             Book Your Stay
           </Button>
         </div>
       </section>
+
+      {/* Booking Form Dialog */}
+      <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <BookingForm
+            packageName={selectedPackage?.name || "Desert Safari Package"}
+            packageTitle={selectedPackage?.name || "Desert Safari Package"}
+            basePrice={parseInt(selectedPackage?.price.replace(/[^0-9]/g, "") || "0")}
+            onSuccess={() => setIsBookingOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
