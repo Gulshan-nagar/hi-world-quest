@@ -1,73 +1,195 @@
-# Welcome to your Lovable project
+# 🚀 CareerLens - Full Stack AI Career Coach
 
-## Project info
+**CareerLens** is a comprehensive AI-powered career coaching platform that helps professionals advance their careers through personalized assessments, interview preparation, and intelligent recommendations.
 
-**URL**: https://lovable.dev/projects/b1cda0f9-e41f-41de-a672-74360ea67c2e
+## 🔥 Tech Stack
 
-## How can I edit this code?
+This project is built with cutting-edge technologies:
 
-There are several ways of editing your application.
+- **[Next.js 15](https://nextjs.org)** - React framework with App Router
+- **[Neon DB](https://neon.tech)** - Serverless PostgreSQL database
+- **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework
+- **[Prisma](https://prisma.io)** - Next-generation ORM
+- **[Inngest](https://inngest.com)** - Reliable background job processing
+- **[Shadcn/ui](https://ui.shadcn.com)** - Beautiful and accessible UI components
+- **[Clerk](https://clerk.com)** - Complete user management and authentication
+- **[Google Generative AI](https://ai.google.dev)** - AI-powered career insights
+- **[Framer Motion](https://framer.com/motion)** - Smooth animations and transitions
 
-**Use Lovable**
+## ✨ Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/b1cda0f9-e41f-41de-a672-74360ea67c2e) and start prompting.
+- 🤖 **AI-Powered Career Assessment** - Get personalized career recommendations
+- 📊 **Interactive Dashboard** - Track your career progress and goals
+- 🎯 **Interview Preparation** - Practice with AI-generated interview questions
+- 📈 **Progress Tracking** - Monitor your skill development over time
+- 🎨 **Modern UI/UX** - Beautiful, responsive design with dark/light theme support
+- 🔐 **Secure Authentication** - Complete user management with Clerk
+- ⚡ **Real-time Updates** - Background job processing with Inngest
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🚀 Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js 18+ 
+- npm/yarn/pnpm
+- Neon DB account
+- Clerk account
+- Google AI API key
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Installation
 
-Follow these steps:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/carrerlens.git
+   cd carrerlens
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   
+   Fill in your environment variables:
+   ```env
+   # Database
+   DATABASE_URL="your-neon-db-connection-string"
+   
+   # Clerk Authentication
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="your-clerk-publishable-key"
+   CLERK_SECRET_KEY="your-clerk-secret-key"
+   
+   # Google AI
+   GOOGLE_AI_API_KEY="your-google-ai-api-key"
+   
+   # Inngest
+   INNGEST_EVENT_KEY="your-inngest-event-key"
+   INNGEST_SIGNING_KEY="your-inngest-signing-key"
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+4. **Set up the database**
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+5. **Run the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+6. **Open your browser**
+   
+   Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
+
+## 📁 Project Structure
+
+```
+carrerlens/
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   ├── dashboard/         # Dashboard pages
+│   ├── interview/         # Interview preparation
+│   └── onboarding/        # User onboarding flow
+├── components/            # Reusable UI components
+│   ├── ui/               # Shadcn/ui components
+│   └── dashboard_components/ # Dashboard-specific components
+├── lib/                   # Utility functions and configurations
+│   ├── inngest/          # Background job functions
+│   └── prisma.js         # Database client
+├── prisma/               # Database schema and migrations
+├── data/                 # Static data and configurations
+└── schemas/              # Zod validation schemas
 ```
 
-**Edit a file directly in GitHub**
+## 🛠️ Key Features Implementation
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### AI Career Assessment
+- Personalized questionnaires using React Hook Form and Zod validation
+- AI-powered analysis using Google Generative AI
+- Industry-specific recommendations
 
-**Use GitHub Codespaces**
+### Dashboard Analytics
+- Interactive charts with Recharts
+- Progress tracking and goal setting
+- Real-time data updates
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Interview Preparation
+- AI-generated interview questions
+- Practice session tracking
+- Performance analytics
 
-## What technologies are used for this project?
+### Background Processing
+- Inngest functions for heavy computations
+- Reliable job processing and retries
+- Event-driven architecture
 
-This project is built with:
+## 🎨 UI Components
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Built with **Shadcn/ui** components including:
+- Responsive navigation and layouts
+- Interactive forms and dialogs
+- Progress indicators and charts
+- Accessible dropdown menus and accordions
+- Beautiful loading states and animations
 
-## How can I deploy this project?
+## 📱 Responsive Design
 
-Simply open [Lovable](https://lovable.dev/projects/b1cda0f9-e41f-41de-a672-74360ea67c2e) and click on Share -> Publish.
+- Mobile-first approach with Tailwind CSS
+- Dark/light theme support with next-themes
+- Smooth animations with Framer Motion
+- Optimized for all screen sizes
 
-## Can I connect a custom domain to my Lovable project?
+## 🚀 Deployment
 
-Yes, you can!
+### Deploy on Vercel
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+The easiest way to deploy CareerLens is using the [Vercel Platform](https://vercel.com/new):
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Add your environment variables
+4. Deploy!
+
+### Environment Setup
+
+Make sure to configure all environment variables in your deployment platform:
+- Database connection string
+- Authentication keys
+- API keys for AI services
+- Inngest configuration
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org) for the amazing React framework
+- [Shadcn](https://ui.shadcn.com) for the beautiful UI components
+- [Neon](https://neon.tech) for the serverless database
+- [Inngest](https://inngest.com) for reliable background jobs
+
+---
+
+**Built with ❤️ using Next.js, Neon DB, Tailwind, Prisma, Inngest, and Shadcn UI** 🔥🔥
